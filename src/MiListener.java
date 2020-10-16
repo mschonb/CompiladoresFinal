@@ -37,8 +37,21 @@ public class MiListener extends TACBaseListener {
     @Override public void exitEmptyStmnt(TACParser.EmptyStmntContext ctx) { }
     @Override public void exitStmntsStmnt(TACParser.StmntsStmntContext ctx) { }
 
+    @Override public void exitPrintAccStmnt(TACParser.PrintAccStmntContext ctx) {
+        //if stmnt is labeled add label to Hashmap
+        if (ctx.ID() != null) {
+            labels.put(ctx.ID().getText(), ll.size());
+        }
 
-    @Override public void exitPrintStmnt(TACParser.PrintStmntContext ctx) {
+        //String accText = ctx.ID().getText();
+        //Acc acc = new Acc(new Id(accText));
+        Acc acc = (Acc)tempNode;
+
+        ll.add(new Print(acc));
+
+    }
+
+    @Override public void exitPrintFactStmnt(TACParser.PrintFactStmntContext ctx) {
         //if stmnt is labeled add label to Hashmap
         if (ctx.ID() != null) {
             labels.put(ctx.ID().getText(), ll.size());
@@ -272,11 +285,23 @@ public class MiListener extends TACBaseListener {
     }
 
 
-    @Override public void exitIDAcc(TACParser.IDAccContext ctx) { }
+    @Override public void exitIDAcc(TACParser.IDAccContext ctx) {
+        Acc acc;
+        Id id = new Id(ctx.ID().getText());
+        acc = new Acc(id);
+
+        tempNode = acc;
+    }
 
 
 
-    @Override public void exitExprAcc(TACParser.ExprAccContext ctx) { }
+    @Override public void exitArrayAcc(TACParser.ArrayAccContext ctx) {
+        Acc acc;
+        Id id = new Id(ctx.getText());
+        acc = new Acc(id);
+
+        tempNode = acc;
+    }
 
 
 
