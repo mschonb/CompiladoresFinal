@@ -26,7 +26,6 @@ public class MiListener extends TACBaseListener {
                 int x = ll.get(i).ejec();
                 if (x >= 0) {
                     i = x;
-                    continue;
                 }
             }
             ll.get(i).ejec();
@@ -37,11 +36,24 @@ public class MiListener extends TACBaseListener {
     @Override public void exitEmptyStmnt(TACParser.EmptyStmntContext ctx) { }
     @Override public void exitStmntsStmnt(TACParser.StmntsStmntContext ctx) { }
 
-
-    @Override public void exitPrintStmnt(TACParser.PrintStmntContext ctx) {
+    @Override public void exitPrintAccStmnt(TACParser.PrintAccStmntContext ctx) {
         //if stmnt is labeled add label to Hashmap
         if (ctx.ID() != null) {
-            labels.put(ctx.ID().getText(), ll.size());
+            labels.put(ctx.ID().getText(), ll.size()-1);
+        }
+
+        //String accText = ctx.ID().getText();
+        //Acc acc = new Acc(new Id(accText));
+        Acc acc = (Acc)tempNode;
+
+        ll.add(new Print(acc));
+
+    }
+
+    @Override public void exitPrintFactStmnt(TACParser.PrintFactStmntContext ctx) {
+        //if stmnt is labeled add label to Hashmap
+        if (ctx.ID() != null) {
+            labels.put(ctx.ID().getText(), ll.size()-1);
         }
 
         Factor factor;
@@ -62,7 +74,7 @@ public class MiListener extends TACBaseListener {
     @Override public void exitAssStmnt(TACParser.AssStmntContext ctx) {
         //if stmnt is labeled add label to Hashmap
         if (ctx.ID() != null) {
-            labels.put(ctx.ID().getText(), ll.size());
+            labels.put(ctx.ID().getText(), ll.size()-1);
         }
     }
 
@@ -221,7 +233,7 @@ public class MiListener extends TACBaseListener {
     @Override public void exitGotoStmnt(TACParser.GotoStmntContext ctx) {
         String label;
         if (ctx.ID().size() != 1) {
-            labels.put(ctx.ID(0).getText(), ll.size());
+            labels.put(ctx.ID(0).getText(), ll.size()-1);
             label = ctx.ID(1).getText();
         } else {
             label = ctx.ID(0).getText();
@@ -245,7 +257,7 @@ public class MiListener extends TACBaseListener {
             factor = new Factor(new Id(value));
         }
 
-        ll.add(new BoolExpr(true, factor, new Id(ctx.ID().getText())));
+        ll.add(new BoolExpr(true, factor, ctx.ID().getText()));
     }
 
     @Override public void exitIfFalseStmnt(TACParser.IfFalseStmntContext ctx) {
@@ -260,7 +272,7 @@ public class MiListener extends TACBaseListener {
             factor = new Factor(new Id(value));
         }
 
-        ll.add(new BoolExpr(false, factor, new Id(ctx.ID().getText())));
+        ll.add(new BoolExpr(false, factor, ctx.ID().getText()));
     }
 
     @Override public void exitIdFact(TACParser.IdFactContext ctx) {
@@ -272,11 +284,23 @@ public class MiListener extends TACBaseListener {
     }
 
 
-    @Override public void exitIDAcc(TACParser.IDAccContext ctx) { }
+    @Override public void exitIDAcc(TACParser.IDAccContext ctx) {
+        Acc acc;
+        Id id = new Id(ctx.ID().getText());
+        acc = new Acc(id);
+
+        tempNode = acc;
+    }
 
 
 
-    @Override public void exitExprAcc(TACParser.ExprAccContext ctx) { }
+    @Override public void exitArrayAcc(TACParser.ArrayAccContext ctx) {
+        Acc acc;
+        Id id = new Id(ctx.getText());
+        acc = new Acc(id);
+
+        tempNode = acc;
+    }
 
 
 

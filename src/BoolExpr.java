@@ -1,9 +1,9 @@
 public class BoolExpr extends Stmnt {
     public boolean typeIf;
     public Factor factor;
-    public Id label;
+    public String label;
 
-    public BoolExpr(boolean typeIf, Factor factor, Id label){
+    public BoolExpr(boolean typeIf, Factor factor, String label){
         this.typeIf = typeIf;
         this.factor = factor;
         this.label = label;
@@ -11,7 +11,7 @@ public class BoolExpr extends Stmnt {
 
     @Override
     public int ejec() {
-        if (typeIf) {
+        if (typeIf) { //ifTrue
             if (factor.ejec() == 1) {
                 try {
                     int val = MiListener.labels.get(label);
@@ -23,7 +23,7 @@ public class BoolExpr extends Stmnt {
             }
             else{ return -1; }
         }
-        else{
+        else{ //ifFalse
             if (factor.ejec() == 0){
                 try {
                     int val = MiListener.labels.get(label);

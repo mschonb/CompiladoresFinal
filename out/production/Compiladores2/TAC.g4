@@ -16,7 +16,8 @@ stmnts : stmnts stmnt           #StmntsStmnt
        |                        #EmptyStmnt
        ;
 
-stmnt : (ID ':')? 'print' '(' factor ')'  #PrintStmnt
+stmnt : (ID ':')? 'print' '(' acc ')'     #PrintAccStmnt
+      | (ID ':')? 'print' '(' factor ')'  #PrintFactStmnt
       | (ID ':')? 'goto' ID               #GotoStmnt
       | (ID ':')? assignment              #AssStmnt
       //TODO: ifTrue and ifFalse label?
@@ -36,7 +37,7 @@ factor : ID                     #IdFact
        ;
 
 acc : ID                          #IDAcc
-    | ID '[' factor ']'           #ExprAcc
+    | ID '[' factor ']'           #ArrayAcc
     ;
 
 assignment : acc '=' op        #AssignmentOp
