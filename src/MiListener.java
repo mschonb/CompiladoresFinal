@@ -24,10 +24,8 @@ public class MiListener extends TACBaseListener {
             }
             if (ll.get(i) instanceof BoolExpr) {
                 int x = ll.get(i).ejec();
-                System.out.println("X: "+ x);
                 if (x >= 0) {
                     i = x;
-                    continue;
                 }
             }
             ll.get(i).ejec();
