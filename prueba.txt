@@ -1,0 +1,9 @@
+(expr { 
+  (table human) 
+  ( (conditions (condition id (logop :) 1002) conditions) ) 
+  { (params (param name) 
+  (params (param appearsIn) 
+  (params (param starships) 
+    (params 
+    { (param name) 
+    })))) } \n } \n)
