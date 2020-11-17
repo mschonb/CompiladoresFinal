@@ -26,18 +26,22 @@ Información tomada de [GraphQL.org](https://graphql.org/learn/queries/)
 ## Producciones
 
 ```antlr
-expr: querydef              #queryexpr|
-      fragmentDef           #fragexpr  
-      ;
+expr: query
+    | fragmentDef
+    ;
 ```
 
 Una expresión para una consulta se puede ver como un fragmento (que puede ayudar a hacer la consulta de manera más simple) o bien un query.
 
 Específicamente:
 
-```antrl4
-querydef: QUERY ID? ('('conditions')')? '{' table  ('(' conditions ')')? ('{'params'}')? '}' #defquery;
+```antlr4
+query: QUERY ID? ('('conditions')')? '{'queryblocks'}';
+```
 
+o bien:
+
+```antlr4
 fragmentDef: 'fragment' ID 'on' table '{' params '}';
 ```
 
@@ -47,16 +51,24 @@ Por nuestra definición de la gramática: \
 - Siempre debemos de especificar el tipo de operación (sólo se acepta ```query```)
 - Podemos agregarle un nombre a la operación con ```ID``` (opcional)
 - Condiciones de búsqueda (```conditions```)
-- la tabla en la que deseamos hacer las operaciones ```table```
-- Más condiciones ```conditions```
-- Los parámetros de búsqueda que nos permiten proyectar los resultados ```params```
+- los bloques de la consulta ```queryblocks``` (pueden ser más de 1)
 
 **Para Fragment:**
 
 - la palabra ```fragment``` para describir que estamos declarando un fragmento
 - El nombre del fragmento con ```ID```
-- ```on``` para saber en qué tabla operamos
+- ```on``` para saber en qué tabla operamos (```table```)
 - ```params``` para las proyecciones.
+
+## Sin entrar mucho a detalle
+
+Nuestra gramática propuesta ofrece soporte para:
+
+- introspecciones
+- valores por default
+- fragmentos (normales e ```inline```)
+- directivas (```@skip``` y ```@include``` sólamente)
+- Comentarios (son ignorados completamente)
 
 ## Algunos ejemplos para probar
 
@@ -101,10 +113,10 @@ query HeroComparison($first: "hola") {
 
 ```GraphQL
 query {
-  hero(episode: EMPIRE) {
+  empireHero: hero(episode: EMPIRE) {
     name
   }
-  hero3(episode: JEDI) {
+  jediHero: hero(episode: JEDI) {
     name
   }
 }
