@@ -1,94 +1,83 @@
 grammar Graphql;
-
-expr: querydef                                                          #queryexpr  |
-      fragmentDef                                                       #fragexpr  
-      ;
-
-querydef: QUERY ID? ('('conditions')')? '{' table  ('(' conditions ')')? ('{'params'}')? '}' #defquery;
-
+ 
+expr: query
+    | fragmentDef
+    ;
+ 
+query: QUERY ID? ('('conditions')')? '{'queryblocks'}';
+ 
 fragmentDef: 'fragment' ID 'on' table '{' params '}';
-
-table: ID                                                               #tableDef
-     ;
-
-
-condition: value logop factor                                           #idOPval
-        
-        ;
-factor: 
-        value                                                           #factorValue       |
-        value assignment value                                          #factorAssValue
-        ;
-
-assignment: '='                                                         #Defvar
-          ;
-
-conditions: condition ',' conditions                                    #conditionconditions |
-        condition                                                       #singlecondition     |
-                                                                        #emptycondition
+ 
+queryblocks: queryblock queryblocks
+            |
             ;
+ 
+queryblock: table ('('conditions')')? directive? '{' params '}';
+ 
+ 
+conditions: condition ',' conditions
+          | condition
+          |
+          ;
+ 
+params: param params
+      |
+      ;
+ 
+param: introspection? field ('('conditions')')? directive?
+     | introspection? queryblock directive?
+     | introspection? fragmentQ directive?
+     ;
+ 
+fragmentQ : '...' ID
+          | '...' 'on' table '{'params'}'
+            ;
+ 
+condition:  value logop factor
+         |
+         ;
+ 
+factor: value
+      | value assignment value
+      ;
+ 
+assignment: '='
+          ;
+ 
+ 
+table: (alias ':')? ID;
+ 
+alias: ID;
+ 
+field: (alias ':')? ID;
+ 
+value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID;
 
-logop: ':'                                                              #equalOP    |
-       '_eq'                                                            #eqOP       |
-       '_gt'                                                            #gtOP       |
-       '_lt'                                                            #ltOP       |
-       '_gte'                                                           #gteOP      |
-       '_lte'                                                           #lteOP      
+
+ 
+logop: ':'
+       |'_eq'
+       |'_gt'
+       |'_lt'
+       |'_gte'
+       |'_lte'
        ;
 
-
-params:  param params                                                   #paramParams   |
-         '{' param params '}'                                           #paramBrackets |
-                                                                        #emptyParam
+variable: '$' ID;
+ 
+directive: '@include' '(' 'if' ':' value ')'
+         | '@skip' '(' 'if' ':' value ')'
          ;
-
-param:  introspection? (ID':')? ID ('(' conditions ')')?  directive?    #paramIDcond   |
-        introspection? (ID':')? querydef directive?                     #exprParam     |
-        introspection? fragmentQ  directive?                            #fragmentParam
-    ;
-
-value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID            
-    ;
-
-variable
-    : '$' ID                                                            #variables
-    ;
-
-alias: ID ;
-
-fragmentQ : '...' ID                                                    #fragmentID       |
-            '...' 'on' table '{'params'}'                               #inlinefragment
-            ;
-
-directive: '@include' '(' 'if' ':' value ')'                            #includedirective |
-           '@skip' '(' 'if' ':' value ')'                               #skipdirective
-           ;
-           
-introspection: INTROSPECTION                                            #anyintrospection;
-
-//terminales
-INTROSPECTION: '__schema' | '__type' | '__typeKind' | '__field' | '__inputValue' | '__enumValue' | '__directive';
-BOOLEAN
-    : 'true' | 'false'
-    ;
-
-FLOAT
-    : NUM '.' NUM
-    ;
-
-NULL
-    : 'null'
-    ;
-
-STRING
-    : '"' (ESCAPED_CHAR | ~["\\])* '"'
-    ;
-
-fragment ESCAPED_CHAR
-    : '\\' ["\\/bfnrt]
-    ;
+introspection: INTROSPECTION;
+ 
 QUERY: 'query';
-NUM: [0-9]+;
+INTROSPECTION: '__schema' | '__type' | '__typeKind' | '__field' | '__inputValue' | '__enumValue' | '__directive';
 ID : [A-Za-z][_0-9A-Za-z]*;
-WS      : [ \n\t\r]+ -> skip;
+NUM: [0-9]+;
+WS: [ \n\t\r]+ -> skip;
 COMMENT: '#' ~[\r\n]* -> skip;
+FLOAT: NUM '.' NUM;
+NULL: 'null';
+STRING: '"' (ESCAPED_CHAR | ~["\\])* '"';
+fragment ESCAPED_CHAR: '\\' ["\\/bfnrt];
+BOOLEAN: 'true' | 'false';

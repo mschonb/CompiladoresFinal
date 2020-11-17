@@ -90,10 +90,10 @@ query HeroNameAndFriends($episode: Episode) {
 
 ```GraphQL
 query HeroComparison($first: "hola") {
-  leftComparison: hero(episode: EMPIRE) {
+  empireHero:hero(episode: EMPIRE) {
     ...comparisonFields
   }
-  rightComparison: hero(episode: JEDI) {
+  jediHero:hero(episode: JEDI) {
     ...comparisonFields
   }
 }
@@ -101,10 +101,10 @@ query HeroComparison($first: "hola") {
 
 ```GraphQL
 query {
-  empireHero: hero(episode: EMPIRE) {
+  hero(episode: EMPIRE) {
     name
   }
-  jediHero: hero(episode: JEDI) {
+  hero3(episode: JEDI) {
     name
   }
 }
@@ -130,6 +130,7 @@ fragment comparisonFields on Character {
   }
 }
 ```
+
 ## Referencias
 
 Nos basamos principalmente en el siguiente repositorio, entendiendo minuciosamente los conceptos, y seleccionando lo que nos servía de: \

@@ -18,35 +18,37 @@ public class GraphqlParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, INTROSPECTION=20, BOOLEAN=21, FLOAT=22, NULL=23, STRING=24, 
-		QUERY=25, NUM=26, ID=27, WS=28, COMMENT=29;
+		T__17=18, T__18=19, QUERY=20, INTROSPECTION=21, ID=22, NUM=23, WS=24, 
+		COMMENT=25, FLOAT=26, NULL=27, STRING=28, BOOLEAN=29;
 	public static final int
-		RULE_expr = 0, RULE_querydef = 1, RULE_fragmentDef = 2, RULE_table = 3, 
-		RULE_condition = 4, RULE_factor = 5, RULE_assignment = 6, RULE_conditions = 7, 
-		RULE_logop = 8, RULE_params = 9, RULE_param = 10, RULE_value = 11, RULE_variable = 12, 
-		RULE_alias = 13, RULE_fragmentQ = 14, RULE_directive = 15, RULE_introspection = 16;
+		RULE_expr = 0, RULE_query = 1, RULE_fragmentDef = 2, RULE_queryblocks = 3, 
+		RULE_queryblock = 4, RULE_conditions = 5, RULE_params = 6, RULE_param = 7, 
+		RULE_fragmentQ = 8, RULE_condition = 9, RULE_factor = 10, RULE_assignment = 11, 
+		RULE_table = 12, RULE_alias = 13, RULE_field = 14, RULE_value = 15, RULE_logop = 16, 
+		RULE_variable = 17, RULE_directive = 18, RULE_introspection = 19;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"expr", "querydef", "fragmentDef", "table", "condition", "factor", "assignment", 
-			"conditions", "logop", "params", "param", "value", "variable", "alias", 
-			"fragmentQ", "directive", "introspection"
+			"expr", "query", "fragmentDef", "queryblocks", "queryblock", "conditions", 
+			"params", "param", "fragmentQ", "condition", "factor", "assignment", 
+			"table", "alias", "field", "value", "logop", "variable", "directive", 
+			"introspection"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", "'{'", "'}'", "'fragment'", "'on'", "'='", "','", 
-			"':'", "'_eq'", "'_gt'", "'_lt'", "'_gte'", "'_lte'", "'$'", "'...'", 
-			"'@include'", "'if'", "'@skip'", null, null, null, "'null'", null, "'query'"
+			null, "'('", "')'", "'{'", "'}'", "'fragment'", "'on'", "','", "'...'", 
+			"'='", "':'", "'_eq'", "'_gt'", "'_lt'", "'_gte'", "'_lte'", "'$'", "'@include'", 
+			"'if'", "'@skip'", "'query'", null, null, null, null, null, null, "'null'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, "INTROSPECTION", "BOOLEAN", 
-			"FLOAT", "NULL", "STRING", "QUERY", "NUM", "ID", "WS", "COMMENT"
+			null, null, null, null, null, null, null, null, "QUERY", "INTROSPECTION", 
+			"ID", "NUM", "WS", "COMMENT", "FLOAT", "NULL", "STRING", "BOOLEAN"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -101,49 +103,36 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
+		public QueryContext query() {
+			return getRuleContext(QueryContext.class,0);
+		}
+		public FragmentDefContext fragmentDef() {
+			return getRuleContext(FragmentDefContext.class,0);
+		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
-	 
-		public ExprContext() { }
-		public void copyFrom(ExprContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class QueryexprContext extends ExprContext {
-		public QuerydefContext querydef() {
-			return getRuleContext(QuerydefContext.class,0);
-		}
-		public QueryexprContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class FragexprContext extends ExprContext {
-		public FragmentDefContext fragmentDef() {
-			return getRuleContext(FragmentDefContext.class,0);
-		}
-		public FragexprContext(ExprContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_expr);
 		try {
-			setState(36);
+			setState(42);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case QUERY:
-				_localctx = new QueryexprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(34);
-				querydef();
+				setState(40);
+				query();
 				}
 				break;
 			case T__4:
-				_localctx = new FragexprContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(35);
+				setState(41);
 				fragmentDef();
 				}
 				break;
@@ -162,102 +151,59 @@ public class GraphqlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class QuerydefContext extends ParserRuleContext {
-		public QuerydefContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_querydef; }
-	 
-		public QuerydefContext() { }
-		public void copyFrom(QuerydefContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class DefqueryContext extends QuerydefContext {
+	public static class QueryContext extends ParserRuleContext {
 		public TerminalNode QUERY() { return getToken(GraphqlParser.QUERY, 0); }
-		public TableContext table() {
-			return getRuleContext(TableContext.class,0);
+		public QueryblocksContext queryblocks() {
+			return getRuleContext(QueryblocksContext.class,0);
 		}
 		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public List<ConditionsContext> conditions() {
-			return getRuleContexts(ConditionsContext.class);
+		public ConditionsContext conditions() {
+			return getRuleContext(ConditionsContext.class,0);
 		}
-		public ConditionsContext conditions(int i) {
-			return getRuleContext(ConditionsContext.class,i);
+		public QueryContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public ParamsContext params() {
-			return getRuleContext(ParamsContext.class,0);
-		}
-		public DefqueryContext(QuerydefContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_query; }
 	}
 
-	public final QuerydefContext querydef() throws RecognitionException {
-		QuerydefContext _localctx = new QuerydefContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_querydef);
+	public final QueryContext query() throws RecognitionException {
+		QueryContext _localctx = new QueryContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_query);
 		int _la;
 		try {
-			_localctx = new DefqueryContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(44);
 			match(QUERY);
-			setState(40);
+			setState(46);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ID) {
 				{
-				setState(39);
+				setState(45);
 				match(ID);
 				}
 			}
 
-			setState(46);
+			setState(52);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__0) {
 				{
-				setState(42);
+				setState(48);
 				match(T__0);
-				setState(43);
+				setState(49);
 				conditions();
-				setState(44);
-				match(T__1);
-				}
-			}
-
-			setState(48);
-			match(T__2);
-			setState(49);
-			table();
-			setState(54);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==T__0) {
-				{
 				setState(50);
-				match(T__0);
-				setState(51);
-				conditions();
-				setState(52);
 				match(T__1);
 				}
 			}
 
-			setState(60);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==T__2) {
-				{
-				setState(56);
-				match(T__2);
-				setState(57);
-				params();
-				setState(58);
-				match(T__3);
-				}
-			}
-
-			setState(62);
+			setState(54);
+			match(T__2);
+			setState(55);
+			queryblocks();
+			setState(56);
 			match(T__3);
 			}
 		}
@@ -292,19 +238,19 @@ public class GraphqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(58);
 			match(T__4);
-			setState(65);
+			setState(59);
 			match(ID);
-			setState(66);
+			setState(60);
 			match(T__5);
-			setState(67);
+			setState(61);
 			table();
-			setState(68);
+			setState(62);
 			match(T__2);
-			setState(69);
+			setState(63);
 			params();
-			setState(70);
+			setState(64);
 			match(T__3);
 			}
 		}
@@ -319,31 +265,421 @@ public class GraphqlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TableContext extends ParserRuleContext {
-		public TableContext(ParserRuleContext parent, int invokingState) {
+	public static class QueryblocksContext extends ParserRuleContext {
+		public QueryblockContext queryblock() {
+			return getRuleContext(QueryblockContext.class,0);
+		}
+		public QueryblocksContext queryblocks() {
+			return getRuleContext(QueryblocksContext.class,0);
+		}
+		public QueryblocksContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_table; }
-	 
-		public TableContext() { }
-		public void copyFrom(TableContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class TableDefContext extends TableContext {
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public TableDefContext(TableContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_queryblocks; }
 	}
 
-	public final TableContext table() throws RecognitionException {
-		TableContext _localctx = new TableContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_table);
+	public final QueryblocksContext queryblocks() throws RecognitionException {
+		QueryblocksContext _localctx = new QueryblocksContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_queryblocks);
 		try {
-			_localctx = new TableDefContext(_localctx);
+			setState(70);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case ID:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(66);
+				queryblock();
+				setState(67);
+				queryblocks();
+				}
+				break;
+			case T__3:
+				enterOuterAlt(_localctx, 2);
+				{
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class QueryblockContext extends ParserRuleContext {
+		public TableContext table() {
+			return getRuleContext(TableContext.class,0);
+		}
+		public ParamsContext params() {
+			return getRuleContext(ParamsContext.class,0);
+		}
+		public ConditionsContext conditions() {
+			return getRuleContext(ConditionsContext.class,0);
+		}
+		public DirectiveContext directive() {
+			return getRuleContext(DirectiveContext.class,0);
+		}
+		public QueryblockContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_queryblock; }
+	}
+
+	public final QueryblockContext queryblock() throws RecognitionException {
+		QueryblockContext _localctx = new QueryblockContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_queryblock);
+		int _la;
+		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(72);
-			match(ID);
+			table();
+			setState(77);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__0) {
+				{
+				setState(73);
+				match(T__0);
+				setState(74);
+				conditions();
+				setState(75);
+				match(T__1);
+				}
+			}
+
+			setState(80);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__16 || _la==T__18) {
+				{
+				setState(79);
+				directive();
+				}
+			}
+
+			setState(82);
+			match(T__2);
+			setState(83);
+			params();
+			setState(84);
+			match(T__3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ConditionsContext extends ParserRuleContext {
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
+		}
+		public ConditionsContext conditions() {
+			return getRuleContext(ConditionsContext.class,0);
+		}
+		public ConditionsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_conditions; }
+	}
+
+	public final ConditionsContext conditions() throws RecognitionException {
+		ConditionsContext _localctx = new ConditionsContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_conditions);
+		try {
+			setState(92);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(86);
+				condition();
+				setState(87);
+				match(T__6);
+				setState(88);
+				conditions();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(90);
+				condition();
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ParamsContext extends ParserRuleContext {
+		public ParamContext param() {
+			return getRuleContext(ParamContext.class,0);
+		}
+		public ParamsContext params() {
+			return getRuleContext(ParamsContext.class,0);
+		}
+		public ParamsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_params; }
+	}
+
+	public final ParamsContext params() throws RecognitionException {
+		ParamsContext _localctx = new ParamsContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_params);
+		try {
+			setState(98);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__7:
+			case INTROSPECTION:
+			case ID:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(94);
+				param();
+				setState(95);
+				params();
+				}
+				break;
+			case T__3:
+				enterOuterAlt(_localctx, 2);
+				{
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ParamContext extends ParserRuleContext {
+		public FieldContext field() {
+			return getRuleContext(FieldContext.class,0);
+		}
+		public IntrospectionContext introspection() {
+			return getRuleContext(IntrospectionContext.class,0);
+		}
+		public ConditionsContext conditions() {
+			return getRuleContext(ConditionsContext.class,0);
+		}
+		public DirectiveContext directive() {
+			return getRuleContext(DirectiveContext.class,0);
+		}
+		public QueryblockContext queryblock() {
+			return getRuleContext(QueryblockContext.class,0);
+		}
+		public FragmentQContext fragmentQ() {
+			return getRuleContext(FragmentQContext.class,0);
+		}
+		public ParamContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_param; }
+	}
+
+	public final ParamContext param() throws RecognitionException {
+		ParamContext _localctx = new ParamContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_param);
+		int _la;
+		try {
+			setState(127);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(101);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==INTROSPECTION) {
+					{
+					setState(100);
+					introspection();
+					}
+				}
+
+				setState(103);
+				field();
+				setState(108);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__0) {
+					{
+					setState(104);
+					match(T__0);
+					setState(105);
+					conditions();
+					setState(106);
+					match(T__1);
+					}
+				}
+
+				setState(111);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__16 || _la==T__18) {
+					{
+					setState(110);
+					directive();
+					}
+				}
+
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(114);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==INTROSPECTION) {
+					{
+					setState(113);
+					introspection();
+					}
+				}
+
+				setState(116);
+				queryblock();
+				setState(118);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__16 || _la==T__18) {
+					{
+					setState(117);
+					directive();
+					}
+				}
+
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(121);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==INTROSPECTION) {
+					{
+					setState(120);
+					introspection();
+					}
+				}
+
+				setState(123);
+				fragmentQ();
+				setState(125);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__16 || _la==T__18) {
+					{
+					setState(124);
+					directive();
+					}
+				}
+
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FragmentQContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public TableContext table() {
+			return getRuleContext(TableContext.class,0);
+		}
+		public ParamsContext params() {
+			return getRuleContext(ParamsContext.class,0);
+		}
+		public FragmentQContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_fragmentQ; }
+	}
+
+	public final FragmentQContext fragmentQ() throws RecognitionException {
+		FragmentQContext _localctx = new FragmentQContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_fragmentQ);
+		try {
+			setState(138);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(129);
+				match(T__7);
+				setState(130);
+				match(ID);
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(131);
+				match(T__7);
+				setState(132);
+				match(T__5);
+				setState(133);
+				table();
+				setState(134);
+				match(T__2);
+				setState(135);
+				params();
+				setState(136);
+				match(T__3);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -358,17 +694,6 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
-		public ConditionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_condition; }
-	 
-		public ConditionContext() { }
-		public void copyFrom(ConditionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class IdOPvalContext extends ConditionContext {
 		public ValueContext value() {
 			return getRuleContext(ValueContext.class,0);
 		}
@@ -378,22 +703,44 @@ public class GraphqlParser extends Parser {
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
 		}
-		public IdOPvalContext(ConditionContext ctx) { copyFrom(ctx); }
+		public ConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_condition; }
 	}
 
 	public final ConditionContext condition() throws RecognitionException {
 		ConditionContext _localctx = new ConditionContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_condition);
+		enterRule(_localctx, 18, RULE_condition);
 		try {
-			_localctx = new IdOPvalContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(74);
-			value();
-			setState(75);
-			logop();
-			setState(76);
-			factor();
+			setState(145);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__15:
+			case ID:
+			case NUM:
+			case FLOAT:
+			case NULL:
+			case STRING:
+			case BOOLEAN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(140);
+				value();
+				setState(141);
+				logop();
+				setState(142);
+				factor();
+				}
+				break;
+			case T__1:
+			case T__6:
+				enterOuterAlt(_localctx, 2);
+				{
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -408,17 +755,6 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class FactorContext extends ParserRuleContext {
-		public FactorContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_factor; }
-	 
-		public FactorContext() { }
-		public void copyFrom(FactorContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class FactorAssValueContext extends FactorContext {
 		public List<ValueContext> value() {
 			return getRuleContexts(ValueContext.class);
 		}
@@ -428,39 +764,34 @@ public class GraphqlParser extends Parser {
 		public AssignmentContext assignment() {
 			return getRuleContext(AssignmentContext.class,0);
 		}
-		public FactorAssValueContext(FactorContext ctx) { copyFrom(ctx); }
-	}
-	public static class FactorValueContext extends FactorContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
+		public FactorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public FactorValueContext(FactorContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_factor; }
 	}
 
 	public final FactorContext factor() throws RecognitionException {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_factor);
+		enterRule(_localctx, 20, RULE_factor);
 		try {
-			setState(83);
+			setState(152);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
-				_localctx = new FactorValueContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(78);
+				setState(147);
 				value();
 				}
 				break;
 			case 2:
-				_localctx = new FactorAssValueContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(79);
+				setState(148);
 				value();
-				setState(80);
+				setState(149);
 				assignment();
-				setState(81);
+				setState(150);
 				value();
 				}
 				break;
@@ -482,25 +813,16 @@ public class GraphqlParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignment; }
-	 
-		public AssignmentContext() { }
-		public void copyFrom(AssignmentContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class DefvarContext extends AssignmentContext {
-		public DefvarContext(AssignmentContext ctx) { copyFrom(ctx); }
 	}
 
 	public final AssignmentContext assignment() throws RecognitionException {
 		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_assignment);
+		enterRule(_localctx, 22, RULE_assignment);
 		try {
-			_localctx = new DefvarContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
-			match(T__6);
+			setState(154);
+			match(T__8);
 			}
 		}
 		catch (RecognitionException re) {
@@ -514,578 +836,35 @@ public class GraphqlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ConditionsContext extends ParserRuleContext {
-		public ConditionsContext(ParserRuleContext parent, int invokingState) {
+	public static class TableContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public AliasContext alias() {
+			return getRuleContext(AliasContext.class,0);
+		}
+		public TableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_conditions; }
-	 
-		public ConditionsContext() { }
-		public void copyFrom(ConditionsContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class ConditionconditionsContext extends ConditionsContext {
-		public ConditionContext condition() {
-			return getRuleContext(ConditionContext.class,0);
-		}
-		public ConditionsContext conditions() {
-			return getRuleContext(ConditionsContext.class,0);
-		}
-		public ConditionconditionsContext(ConditionsContext ctx) { copyFrom(ctx); }
-	}
-	public static class EmptyconditionContext extends ConditionsContext {
-		public EmptyconditionContext(ConditionsContext ctx) { copyFrom(ctx); }
-	}
-	public static class SingleconditionContext extends ConditionsContext {
-		public ConditionContext condition() {
-			return getRuleContext(ConditionContext.class,0);
-		}
-		public SingleconditionContext(ConditionsContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_table; }
 	}
 
-	public final ConditionsContext conditions() throws RecognitionException {
-		ConditionsContext _localctx = new ConditionsContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_conditions);
+	public final TableContext table() throws RecognitionException {
+		TableContext _localctx = new TableContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_table);
 		try {
-			setState(93);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(159);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
 			case 1:
-				_localctx = new ConditionconditionsContext(_localctx);
-				enterOuterAlt(_localctx, 1);
 				{
-				setState(87);
-				condition();
-				setState(88);
-				match(T__7);
-				setState(89);
-				conditions();
-				}
-				break;
-			case 2:
-				_localctx = new SingleconditionContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(91);
-				condition();
-				}
-				break;
-			case 3:
-				_localctx = new EmptyconditionContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class LogopContext extends ParserRuleContext {
-		public LogopContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_logop; }
-	 
-		public LogopContext() { }
-		public void copyFrom(LogopContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class EqualOPContext extends LogopContext {
-		public EqualOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-	public static class EqOPContext extends LogopContext {
-		public EqOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-	public static class LteOPContext extends LogopContext {
-		public LteOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-	public static class GteOPContext extends LogopContext {
-		public GteOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-	public static class LtOPContext extends LogopContext {
-		public LtOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-	public static class GtOPContext extends LogopContext {
-		public GtOPContext(LogopContext ctx) { copyFrom(ctx); }
-	}
-
-	public final LogopContext logop() throws RecognitionException {
-		LogopContext _localctx = new LogopContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_logop);
-		try {
-			setState(101);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__8:
-				_localctx = new EqualOPContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(95);
-				match(T__8);
-				}
-				break;
-			case T__9:
-				_localctx = new EqOPContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(96);
+				setState(156);
+				alias();
+				setState(157);
 				match(T__9);
 				}
 				break;
-			case T__10:
-				_localctx = new GtOPContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(97);
-				match(T__10);
-				}
-				break;
-			case T__11:
-				_localctx = new LtOPContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(98);
-				match(T__11);
-				}
-				break;
-			case T__12:
-				_localctx = new GteOPContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(99);
-				match(T__12);
-				}
-				break;
-			case T__13:
-				_localctx = new LteOPContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(100);
-				match(T__13);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ParamsContext extends ParserRuleContext {
-		public ParamsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_params; }
-	 
-		public ParamsContext() { }
-		public void copyFrom(ParamsContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class EmptyParamContext extends ParamsContext {
-		public EmptyParamContext(ParamsContext ctx) { copyFrom(ctx); }
-	}
-	public static class ParamParamsContext extends ParamsContext {
-		public ParamContext param() {
-			return getRuleContext(ParamContext.class,0);
-		}
-		public ParamsContext params() {
-			return getRuleContext(ParamsContext.class,0);
-		}
-		public ParamParamsContext(ParamsContext ctx) { copyFrom(ctx); }
-	}
-	public static class ParamBracketsContext extends ParamsContext {
-		public ParamContext param() {
-			return getRuleContext(ParamContext.class,0);
-		}
-		public ParamsContext params() {
-			return getRuleContext(ParamsContext.class,0);
-		}
-		public ParamBracketsContext(ParamsContext ctx) { copyFrom(ctx); }
-	}
-
-	public final ParamsContext params() throws RecognitionException {
-		ParamsContext _localctx = new ParamsContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_params);
-		try {
-			setState(112);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__15:
-			case INTROSPECTION:
-			case QUERY:
-			case ID:
-				_localctx = new ParamParamsContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(103);
-				param();
-				setState(104);
-				params();
-				}
-				break;
-			case T__2:
-				_localctx = new ParamBracketsContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(106);
-				match(T__2);
-				setState(107);
-				param();
-				setState(108);
-				params();
-				setState(109);
-				match(T__3);
-				}
-				break;
-			case T__3:
-				_localctx = new EmptyParamContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ParamContext extends ParserRuleContext {
-		public ParamContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_param; }
-	 
-		public ParamContext() { }
-		public void copyFrom(ParamContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class ParamIDcondContext extends ParamContext {
-		public List<TerminalNode> ID() { return getTokens(GraphqlParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(GraphqlParser.ID, i);
-		}
-		public IntrospectionContext introspection() {
-			return getRuleContext(IntrospectionContext.class,0);
-		}
-		public ConditionsContext conditions() {
-			return getRuleContext(ConditionsContext.class,0);
-		}
-		public DirectiveContext directive() {
-			return getRuleContext(DirectiveContext.class,0);
-		}
-		public ParamIDcondContext(ParamContext ctx) { copyFrom(ctx); }
-	}
-	public static class ExprParamContext extends ParamContext {
-		public QuerydefContext querydef() {
-			return getRuleContext(QuerydefContext.class,0);
-		}
-		public IntrospectionContext introspection() {
-			return getRuleContext(IntrospectionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public DirectiveContext directive() {
-			return getRuleContext(DirectiveContext.class,0);
-		}
-		public ExprParamContext(ParamContext ctx) { copyFrom(ctx); }
-	}
-	public static class FragmentParamContext extends ParamContext {
-		public FragmentQContext fragmentQ() {
-			return getRuleContext(FragmentQContext.class,0);
-		}
-		public IntrospectionContext introspection() {
-			return getRuleContext(IntrospectionContext.class,0);
-		}
-		public DirectiveContext directive() {
-			return getRuleContext(DirectiveContext.class,0);
-		}
-		public FragmentParamContext(ParamContext ctx) { copyFrom(ctx); }
-	}
-
-	public final ParamContext param() throws RecognitionException {
-		ParamContext _localctx = new ParamContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_param);
-		int _la;
-		try {
-			setState(149);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
-			case 1:
-				_localctx = new ParamIDcondContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(115);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==INTROSPECTION) {
-					{
-					setState(114);
-					introspection();
-					}
-				}
-
-				setState(119);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
-				case 1:
-					{
-					setState(117);
-					match(ID);
-					setState(118);
-					match(T__8);
-					}
-					break;
-				}
-				setState(121);
-				match(ID);
-				setState(126);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__0) {
-					{
-					setState(122);
-					match(T__0);
-					setState(123);
-					conditions();
-					setState(124);
-					match(T__1);
-					}
-				}
-
-				setState(129);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__16 || _la==T__18) {
-					{
-					setState(128);
-					directive();
-					}
-				}
-
-				}
-				break;
-			case 2:
-				_localctx = new ExprParamContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(132);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==INTROSPECTION) {
-					{
-					setState(131);
-					introspection();
-					}
-				}
-
-				setState(136);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ID) {
-					{
-					setState(134);
-					match(ID);
-					setState(135);
-					match(T__8);
-					}
-				}
-
-				setState(138);
-				querydef();
-				setState(140);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__16 || _la==T__18) {
-					{
-					setState(139);
-					directive();
-					}
-				}
-
-				}
-				break;
-			case 3:
-				_localctx = new FragmentParamContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(143);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==INTROSPECTION) {
-					{
-					setState(142);
-					introspection();
-					}
-				}
-
-				setState(145);
-				fragmentQ();
-				setState(147);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__16 || _la==T__18) {
-					{
-					setState(146);
-					directive();
-					}
-				}
-
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ValueContext extends ParserRuleContext {
-		public VariableContext variable() {
-			return getRuleContext(VariableContext.class,0);
-		}
-		public TerminalNode FLOAT() { return getToken(GraphqlParser.FLOAT, 0); }
-		public TerminalNode NUM() { return getToken(GraphqlParser.NUM, 0); }
-		public TerminalNode STRING() { return getToken(GraphqlParser.STRING, 0); }
-		public TerminalNode BOOLEAN() { return getToken(GraphqlParser.BOOLEAN, 0); }
-		public TerminalNode NULL() { return getToken(GraphqlParser.NULL, 0); }
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public ValueContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_value; }
-	}
-
-	public final ValueContext value() throws RecognitionException {
-		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_value);
-		try {
-			setState(158);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__14:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(151);
-				variable();
-				}
-				break;
-			case FLOAT:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(152);
-				match(FLOAT);
-				}
-				break;
-			case NUM:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(153);
-				match(NUM);
-				}
-				break;
-			case STRING:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(154);
-				match(STRING);
-				}
-				break;
-			case BOOLEAN:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(155);
-				match(BOOLEAN);
-				}
-				break;
-			case NULL:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(156);
-				match(NULL);
-				}
-				break;
-			case ID:
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(157);
-				match(ID);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class VariableContext extends ParserRuleContext {
-		public VariableContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_variable; }
-	 
-		public VariableContext() { }
-		public void copyFrom(VariableContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class VariablesContext extends VariableContext {
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public VariablesContext(VariableContext ctx) { copyFrom(ctx); }
-	}
-
-	public final VariableContext variable() throws RecognitionException {
-		VariableContext _localctx = new VariableContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_variable);
-		try {
-			_localctx = new VariablesContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(160);
-			match(T__14);
 			setState(161);
 			match(ID);
 			}
@@ -1130,66 +909,192 @@ public class GraphqlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class FragmentQContext extends ParserRuleContext {
-		public FragmentQContext(ParserRuleContext parent, int invokingState) {
+	public static class FieldContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public AliasContext alias() {
+			return getRuleContext(AliasContext.class,0);
+		}
+		public FieldContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_fragmentQ; }
-	 
-		public FragmentQContext() { }
-		public void copyFrom(FragmentQContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class FragmentIDContext extends FragmentQContext {
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
-		public FragmentIDContext(FragmentQContext ctx) { copyFrom(ctx); }
-	}
-	public static class InlinefragmentContext extends FragmentQContext {
-		public TableContext table() {
-			return getRuleContext(TableContext.class,0);
-		}
-		public ParamsContext params() {
-			return getRuleContext(ParamsContext.class,0);
-		}
-		public InlinefragmentContext(FragmentQContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_field; }
 	}
 
-	public final FragmentQContext fragmentQ() throws RecognitionException {
-		FragmentQContext _localctx = new FragmentQContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_fragmentQ);
+	public final FieldContext field() throws RecognitionException {
+		FieldContext _localctx = new FieldContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_field);
 		try {
-			setState(174);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(168);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 			case 1:
-				_localctx = new FragmentIDContext(_localctx);
-				enterOuterAlt(_localctx, 1);
 				{
 				setState(165);
-				match(T__15);
+				alias();
 				setState(166);
+				match(T__9);
+				}
+				break;
+			}
+			setState(170);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ValueContext extends ParserRuleContext {
+		public VariableContext variable() {
+			return getRuleContext(VariableContext.class,0);
+		}
+		public TerminalNode FLOAT() { return getToken(GraphqlParser.FLOAT, 0); }
+		public TerminalNode NUM() { return getToken(GraphqlParser.NUM, 0); }
+		public TerminalNode STRING() { return getToken(GraphqlParser.STRING, 0); }
+		public TerminalNode BOOLEAN() { return getToken(GraphqlParser.BOOLEAN, 0); }
+		public TerminalNode NULL() { return getToken(GraphqlParser.NULL, 0); }
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public ValueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_value; }
+	}
+
+	public final ValueContext value() throws RecognitionException {
+		ValueContext _localctx = new ValueContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_value);
+		try {
+			setState(179);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case T__15:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(172);
+				variable();
+				}
+				break;
+			case FLOAT:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(173);
+				match(FLOAT);
+				}
+				break;
+			case NUM:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(174);
+				match(NUM);
+				}
+				break;
+			case STRING:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(175);
+				match(STRING);
+				}
+				break;
+			case BOOLEAN:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(176);
+				match(BOOLEAN);
+				}
+				break;
+			case NULL:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(177);
+				match(NULL);
+				}
+				break;
+			case ID:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(178);
 				match(ID);
 				}
 				break;
-			case 2:
-				_localctx = new InlinefragmentContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(167);
-				match(T__15);
-				setState(168);
-				match(T__5);
-				setState(169);
-				table();
-				setState(170);
-				match(T__2);
-				setState(171);
-				params();
-				setState(172);
-				match(T__3);
-				}
-				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LogopContext extends ParserRuleContext {
+		public LogopContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_logop; }
+	}
+
+	public final LogopContext logop() throws RecognitionException {
+		LogopContext _localctx = new LogopContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_logop);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(181);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VariableContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public VariableContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_variable; }
+	}
+
+	public final VariableContext variable() throws RecognitionException {
+		VariableContext _localctx = new VariableContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_variable);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(183);
+			match(T__15);
+			setState(184);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1204,69 +1109,53 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class DirectiveContext extends ParserRuleContext {
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
 		public DirectiveContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_directive; }
-	 
-		public DirectiveContext() { }
-		public void copyFrom(DirectiveContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class IncludedirectiveContext extends DirectiveContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
-		}
-		public IncludedirectiveContext(DirectiveContext ctx) { copyFrom(ctx); }
-	}
-	public static class SkipdirectiveContext extends DirectiveContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
-		}
-		public SkipdirectiveContext(DirectiveContext ctx) { copyFrom(ctx); }
 	}
 
 	public final DirectiveContext directive() throws RecognitionException {
 		DirectiveContext _localctx = new DirectiveContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_directive);
+		enterRule(_localctx, 36, RULE_directive);
 		try {
-			setState(190);
+			setState(200);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__16:
-				_localctx = new IncludedirectiveContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(176);
+				setState(186);
 				match(T__16);
-				setState(177);
+				setState(187);
 				match(T__0);
-				setState(178);
+				setState(188);
 				match(T__17);
-				setState(179);
-				match(T__8);
-				setState(180);
+				setState(189);
+				match(T__9);
+				setState(190);
 				value();
-				setState(181);
+				setState(191);
 				match(T__1);
 				}
 				break;
 			case T__18:
-				_localctx = new SkipdirectiveContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(183);
+				setState(193);
 				match(T__18);
-				setState(184);
+				setState(194);
 				match(T__0);
-				setState(185);
+				setState(195);
 				match(T__17);
-				setState(186);
-				match(T__8);
-				setState(187);
+				setState(196);
+				match(T__9);
+				setState(197);
 				value();
-				setState(188);
+				setState(198);
 				match(T__1);
 				}
 				break;
@@ -1286,29 +1175,20 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class IntrospectionContext extends ParserRuleContext {
+		public TerminalNode INTROSPECTION() { return getToken(GraphqlParser.INTROSPECTION, 0); }
 		public IntrospectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_introspection; }
-	 
-		public IntrospectionContext() { }
-		public void copyFrom(IntrospectionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class AnyintrospectionContext extends IntrospectionContext {
-		public TerminalNode INTROSPECTION() { return getToken(GraphqlParser.INTROSPECTION, 0); }
-		public AnyintrospectionContext(IntrospectionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final IntrospectionContext introspection() throws RecognitionException {
 		IntrospectionContext _localctx = new IntrospectionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_introspection);
+		enterRule(_localctx, 38, RULE_introspection);
 		try {
-			_localctx = new AnyintrospectionContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
+			setState(202);
 			match(INTROSPECTION);
 			}
 		}
@@ -1324,67 +1204,69 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u00c5\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u00cf\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\3\2\3\2\5\2\'\n\2\3\3\3\3\5\3+\n\3\3\3\3\3\3\3\3\3\5\3\61\n\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\5\39\n\3\3\3\3\3\3\3\3\3\5\3?\n\3\3\3\3\3\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7V"+
-		"\n\7\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\5\t`\n\t\3\n\3\n\3\n\3\n\3\n\3\n"+
-		"\5\nh\n\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13s\n\13\3\f"+
-		"\5\fv\n\f\3\f\3\f\5\fz\n\f\3\f\3\f\3\f\3\f\3\f\5\f\u0081\n\f\3\f\5\f\u0084"+
-		"\n\f\3\f\5\f\u0087\n\f\3\f\3\f\5\f\u008b\n\f\3\f\3\f\5\f\u008f\n\f\3\f"+
-		"\5\f\u0092\n\f\3\f\3\f\5\f\u0096\n\f\5\f\u0098\n\f\3\r\3\r\3\r\3\r\3\r"+
-		"\3\r\3\r\5\r\u00a1\n\r\3\16\3\16\3\16\3\17\3\17\3\20\3\20\3\20\3\20\3"+
-		"\20\3\20\3\20\3\20\3\20\5\20\u00b1\n\20\3\21\3\21\3\21\3\21\3\21\3\21"+
-		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\5\21\u00c1\n\21\3\22\3\22\3\22"+
-		"\2\2\23\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"\2\2\2\u00d5\2&\3\2\2"+
-		"\2\4(\3\2\2\2\6B\3\2\2\2\bJ\3\2\2\2\nL\3\2\2\2\fU\3\2\2\2\16W\3\2\2\2"+
-		"\20_\3\2\2\2\22g\3\2\2\2\24r\3\2\2\2\26\u0097\3\2\2\2\30\u00a0\3\2\2\2"+
-		"\32\u00a2\3\2\2\2\34\u00a5\3\2\2\2\36\u00b0\3\2\2\2 \u00c0\3\2\2\2\"\u00c2"+
-		"\3\2\2\2$\'\5\4\3\2%\'\5\6\4\2&$\3\2\2\2&%\3\2\2\2\'\3\3\2\2\2(*\7\33"+
-		"\2\2)+\7\35\2\2*)\3\2\2\2*+\3\2\2\2+\60\3\2\2\2,-\7\3\2\2-.\5\20\t\2."+
-		"/\7\4\2\2/\61\3\2\2\2\60,\3\2\2\2\60\61\3\2\2\2\61\62\3\2\2\2\62\63\7"+
-		"\5\2\2\638\5\b\5\2\64\65\7\3\2\2\65\66\5\20\t\2\66\67\7\4\2\2\679\3\2"+
-		"\2\28\64\3\2\2\289\3\2\2\29>\3\2\2\2:;\7\5\2\2;<\5\24\13\2<=\7\6\2\2="+
-		"?\3\2\2\2>:\3\2\2\2>?\3\2\2\2?@\3\2\2\2@A\7\6\2\2A\5\3\2\2\2BC\7\7\2\2"+
-		"CD\7\35\2\2DE\7\b\2\2EF\5\b\5\2FG\7\5\2\2GH\5\24\13\2HI\7\6\2\2I\7\3\2"+
-		"\2\2JK\7\35\2\2K\t\3\2\2\2LM\5\30\r\2MN\5\22\n\2NO\5\f\7\2O\13\3\2\2\2"+
-		"PV\5\30\r\2QR\5\30\r\2RS\5\16\b\2ST\5\30\r\2TV\3\2\2\2UP\3\2\2\2UQ\3\2"+
-		"\2\2V\r\3\2\2\2WX\7\t\2\2X\17\3\2\2\2YZ\5\n\6\2Z[\7\n\2\2[\\\5\20\t\2"+
-		"\\`\3\2\2\2]`\5\n\6\2^`\3\2\2\2_Y\3\2\2\2_]\3\2\2\2_^\3\2\2\2`\21\3\2"+
-		"\2\2ah\7\13\2\2bh\7\f\2\2ch\7\r\2\2dh\7\16\2\2eh\7\17\2\2fh\7\20\2\2g"+
-		"a\3\2\2\2gb\3\2\2\2gc\3\2\2\2gd\3\2\2\2ge\3\2\2\2gf\3\2\2\2h\23\3\2\2"+
-		"\2ij\5\26\f\2jk\5\24\13\2ks\3\2\2\2lm\7\5\2\2mn\5\26\f\2no\5\24\13\2o"+
-		"p\7\6\2\2ps\3\2\2\2qs\3\2\2\2ri\3\2\2\2rl\3\2\2\2rq\3\2\2\2s\25\3\2\2"+
-		"\2tv\5\"\22\2ut\3\2\2\2uv\3\2\2\2vy\3\2\2\2wx\7\35\2\2xz\7\13\2\2yw\3"+
-		"\2\2\2yz\3\2\2\2z{\3\2\2\2{\u0080\7\35\2\2|}\7\3\2\2}~\5\20\t\2~\177\7"+
-		"\4\2\2\177\u0081\3\2\2\2\u0080|\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0083"+
-		"\3\2\2\2\u0082\u0084\5 \21\2\u0083\u0082\3\2\2\2\u0083\u0084\3\2\2\2\u0084"+
-		"\u0098\3\2\2\2\u0085\u0087\5\"\22\2\u0086\u0085\3\2\2\2\u0086\u0087\3"+
-		"\2\2\2\u0087\u008a\3\2\2\2\u0088\u0089\7\35\2\2\u0089\u008b\7\13\2\2\u008a"+
-		"\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008e\5\4"+
-		"\3\2\u008d\u008f\5 \21\2\u008e\u008d\3\2\2\2\u008e\u008f\3\2\2\2\u008f"+
-		"\u0098\3\2\2\2\u0090\u0092\5\"\22\2\u0091\u0090\3\2\2\2\u0091\u0092\3"+
-		"\2\2\2\u0092\u0093\3\2\2\2\u0093\u0095\5\36\20\2\u0094\u0096\5 \21\2\u0095"+
-		"\u0094\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0098\3\2\2\2\u0097u\3\2\2\2"+
-		"\u0097\u0086\3\2\2\2\u0097\u0091\3\2\2\2\u0098\27\3\2\2\2\u0099\u00a1"+
-		"\5\32\16\2\u009a\u00a1\7\30\2\2\u009b\u00a1\7\34\2\2\u009c\u00a1\7\32"+
-		"\2\2\u009d\u00a1\7\27\2\2\u009e\u00a1\7\31\2\2\u009f\u00a1\7\35\2\2\u00a0"+
-		"\u0099\3\2\2\2\u00a0\u009a\3\2\2\2\u00a0\u009b\3\2\2\2\u00a0\u009c\3\2"+
-		"\2\2\u00a0\u009d\3\2\2\2\u00a0\u009e\3\2\2\2\u00a0\u009f\3\2\2\2\u00a1"+
-		"\31\3\2\2\2\u00a2\u00a3\7\21\2\2\u00a3\u00a4\7\35\2\2\u00a4\33\3\2\2\2"+
-		"\u00a5\u00a6\7\35\2\2\u00a6\35\3\2\2\2\u00a7\u00a8\7\22\2\2\u00a8\u00b1"+
-		"\7\35\2\2\u00a9\u00aa\7\22\2\2\u00aa\u00ab\7\b\2\2\u00ab\u00ac\5\b\5\2"+
-		"\u00ac\u00ad\7\5\2\2\u00ad\u00ae\5\24\13\2\u00ae\u00af\7\6\2\2\u00af\u00b1"+
-		"\3\2\2\2\u00b0\u00a7\3\2\2\2\u00b0\u00a9\3\2\2\2\u00b1\37\3\2\2\2\u00b2"+
-		"\u00b3\7\23\2\2\u00b3\u00b4\7\3\2\2\u00b4\u00b5\7\24\2\2\u00b5\u00b6\7"+
-		"\13\2\2\u00b6\u00b7\5\30\r\2\u00b7\u00b8\7\4\2\2\u00b8\u00c1\3\2\2\2\u00b9"+
-		"\u00ba\7\25\2\2\u00ba\u00bb\7\3\2\2\u00bb\u00bc\7\24\2\2\u00bc\u00bd\7"+
-		"\13\2\2\u00bd\u00be\5\30\r\2\u00be\u00bf\7\4\2\2\u00bf\u00c1\3\2\2\2\u00c0"+
-		"\u00b2\3\2\2\2\u00c0\u00b9\3\2\2\2\u00c1!\3\2\2\2\u00c2\u00c3\7\26\2\2"+
-		"\u00c3#\3\2\2\2\30&*\608>U_gruy\u0080\u0083\u0086\u008a\u008e\u0091\u0095"+
-		"\u0097\u00a0\u00b0\u00c0";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\3\2\3\2\5\2-\n\2\3\3\3\3\5\3\61\n\3\3\3"+
+		"\3\3\3\3\3\3\5\3\67\n\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
+		"\4\3\5\3\5\3\5\3\5\5\5I\n\5\3\6\3\6\3\6\3\6\3\6\5\6P\n\6\3\6\5\6S\n\6"+
+		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\5\7_\n\7\3\b\3\b\3\b\3\b\5\b"+
+		"e\n\b\3\t\5\th\n\t\3\t\3\t\3\t\3\t\3\t\5\to\n\t\3\t\5\tr\n\t\3\t\5\tu"+
+		"\n\t\3\t\3\t\5\ty\n\t\3\t\5\t|\n\t\3\t\3\t\5\t\u0080\n\t\5\t\u0082\n\t"+
+		"\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u008d\n\n\3\13\3\13\3\13\3\13"+
+		"\3\13\5\13\u0094\n\13\3\f\3\f\3\f\3\f\3\f\5\f\u009b\n\f\3\r\3\r\3\16\3"+
+		"\16\3\16\5\16\u00a2\n\16\3\16\3\16\3\17\3\17\3\20\3\20\3\20\5\20\u00ab"+
+		"\n\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\5\21\u00b6\n\21\3\22"+
+		"\3\22\3\23\3\23\3\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24"+
+		"\3\24\3\24\3\24\3\24\5\24\u00cb\n\24\3\25\3\25\3\25\2\2\26\2\4\6\b\n\f"+
+		"\16\20\22\24\26\30\32\34\36 \"$&(\2\3\3\2\f\21\2\u00d8\2,\3\2\2\2\4.\3"+
+		"\2\2\2\6<\3\2\2\2\bH\3\2\2\2\nJ\3\2\2\2\f^\3\2\2\2\16d\3\2\2\2\20\u0081"+
+		"\3\2\2\2\22\u008c\3\2\2\2\24\u0093\3\2\2\2\26\u009a\3\2\2\2\30\u009c\3"+
+		"\2\2\2\32\u00a1\3\2\2\2\34\u00a5\3\2\2\2\36\u00aa\3\2\2\2 \u00b5\3\2\2"+
+		"\2\"\u00b7\3\2\2\2$\u00b9\3\2\2\2&\u00ca\3\2\2\2(\u00cc\3\2\2\2*-\5\4"+
+		"\3\2+-\5\6\4\2,*\3\2\2\2,+\3\2\2\2-\3\3\2\2\2.\60\7\26\2\2/\61\7\30\2"+
+		"\2\60/\3\2\2\2\60\61\3\2\2\2\61\66\3\2\2\2\62\63\7\3\2\2\63\64\5\f\7\2"+
+		"\64\65\7\4\2\2\65\67\3\2\2\2\66\62\3\2\2\2\66\67\3\2\2\2\678\3\2\2\28"+
+		"9\7\5\2\29:\5\b\5\2:;\7\6\2\2;\5\3\2\2\2<=\7\7\2\2=>\7\30\2\2>?\7\b\2"+
+		"\2?@\5\32\16\2@A\7\5\2\2AB\5\16\b\2BC\7\6\2\2C\7\3\2\2\2DE\5\n\6\2EF\5"+
+		"\b\5\2FI\3\2\2\2GI\3\2\2\2HD\3\2\2\2HG\3\2\2\2I\t\3\2\2\2JO\5\32\16\2"+
+		"KL\7\3\2\2LM\5\f\7\2MN\7\4\2\2NP\3\2\2\2OK\3\2\2\2OP\3\2\2\2PR\3\2\2\2"+
+		"QS\5&\24\2RQ\3\2\2\2RS\3\2\2\2ST\3\2\2\2TU\7\5\2\2UV\5\16\b\2VW\7\6\2"+
+		"\2W\13\3\2\2\2XY\5\24\13\2YZ\7\t\2\2Z[\5\f\7\2[_\3\2\2\2\\_\5\24\13\2"+
+		"]_\3\2\2\2^X\3\2\2\2^\\\3\2\2\2^]\3\2\2\2_\r\3\2\2\2`a\5\20\t\2ab\5\16"+
+		"\b\2be\3\2\2\2ce\3\2\2\2d`\3\2\2\2dc\3\2\2\2e\17\3\2\2\2fh\5(\25\2gf\3"+
+		"\2\2\2gh\3\2\2\2hi\3\2\2\2in\5\36\20\2jk\7\3\2\2kl\5\f\7\2lm\7\4\2\2m"+
+		"o\3\2\2\2nj\3\2\2\2no\3\2\2\2oq\3\2\2\2pr\5&\24\2qp\3\2\2\2qr\3\2\2\2"+
+		"r\u0082\3\2\2\2su\5(\25\2ts\3\2\2\2tu\3\2\2\2uv\3\2\2\2vx\5\n\6\2wy\5"+
+		"&\24\2xw\3\2\2\2xy\3\2\2\2y\u0082\3\2\2\2z|\5(\25\2{z\3\2\2\2{|\3\2\2"+
+		"\2|}\3\2\2\2}\177\5\22\n\2~\u0080\5&\24\2\177~\3\2\2\2\177\u0080\3\2\2"+
+		"\2\u0080\u0082\3\2\2\2\u0081g\3\2\2\2\u0081t\3\2\2\2\u0081{\3\2\2\2\u0082"+
+		"\21\3\2\2\2\u0083\u0084\7\n\2\2\u0084\u008d\7\30\2\2\u0085\u0086\7\n\2"+
+		"\2\u0086\u0087\7\b\2\2\u0087\u0088\5\32\16\2\u0088\u0089\7\5\2\2\u0089"+
+		"\u008a\5\16\b\2\u008a\u008b\7\6\2\2\u008b\u008d\3\2\2\2\u008c\u0083\3"+
+		"\2\2\2\u008c\u0085\3\2\2\2\u008d\23\3\2\2\2\u008e\u008f\5 \21\2\u008f"+
+		"\u0090\5\"\22\2\u0090\u0091\5\26\f\2\u0091\u0094\3\2\2\2\u0092\u0094\3"+
+		"\2\2\2\u0093\u008e\3\2\2\2\u0093\u0092\3\2\2\2\u0094\25\3\2\2\2\u0095"+
+		"\u009b\5 \21\2\u0096\u0097\5 \21\2\u0097\u0098\5\30\r\2\u0098\u0099\5"+
+		" \21\2\u0099\u009b\3\2\2\2\u009a\u0095\3\2\2\2\u009a\u0096\3\2\2\2\u009b"+
+		"\27\3\2\2\2\u009c\u009d\7\13\2\2\u009d\31\3\2\2\2\u009e\u009f\5\34\17"+
+		"\2\u009f\u00a0\7\f\2\2\u00a0\u00a2\3\2\2\2\u00a1\u009e\3\2\2\2\u00a1\u00a2"+
+		"\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\7\30\2\2\u00a4\33\3\2\2\2\u00a5"+
+		"\u00a6\7\30\2\2\u00a6\35\3\2\2\2\u00a7\u00a8\5\34\17\2\u00a8\u00a9\7\f"+
+		"\2\2\u00a9\u00ab\3\2\2\2\u00aa\u00a7\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab"+
+		"\u00ac\3\2\2\2\u00ac\u00ad\7\30\2\2\u00ad\37\3\2\2\2\u00ae\u00b6\5$\23"+
+		"\2\u00af\u00b6\7\34\2\2\u00b0\u00b6\7\31\2\2\u00b1\u00b6\7\36\2\2\u00b2"+
+		"\u00b6\7\37\2\2\u00b3\u00b6\7\35\2\2\u00b4\u00b6\7\30\2\2\u00b5\u00ae"+
+		"\3\2\2\2\u00b5\u00af\3\2\2\2\u00b5\u00b0\3\2\2\2\u00b5\u00b1\3\2\2\2\u00b5"+
+		"\u00b2\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b4\3\2\2\2\u00b6!\3\2\2\2"+
+		"\u00b7\u00b8\t\2\2\2\u00b8#\3\2\2\2\u00b9\u00ba\7\22\2\2\u00ba\u00bb\7"+
+		"\30\2\2\u00bb%\3\2\2\2\u00bc\u00bd\7\23\2\2\u00bd\u00be\7\3\2\2\u00be"+
+		"\u00bf\7\24\2\2\u00bf\u00c0\7\f\2\2\u00c0\u00c1\5 \21\2\u00c1\u00c2\7"+
+		"\4\2\2\u00c2\u00cb\3\2\2\2\u00c3\u00c4\7\25\2\2\u00c4\u00c5\7\3\2\2\u00c5"+
+		"\u00c6\7\24\2\2\u00c6\u00c7\7\f\2\2\u00c7\u00c8\5 \21\2\u00c8\u00c9\7"+
+		"\4\2\2\u00c9\u00cb\3\2\2\2\u00ca\u00bc\3\2\2\2\u00ca\u00c3\3\2\2\2\u00cb"+
+		"\'\3\2\2\2\u00cc\u00cd\7\27\2\2\u00cd)\3\2\2\2\31,\60\66HOR^dgnqtx{\177"+
+		"\u0081\u008c\u0093\u009a\u00a1\u00aa\u00b5\u00ca";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
