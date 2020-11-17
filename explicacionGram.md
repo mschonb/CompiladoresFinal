@@ -1,41 +1,136 @@
 # Gramática GraphQL
 
+## Equipo
+
+Christian Dalma SchultzA01423166 \
+Fernando A01335834 \
+Marcelo Schonbrunn A01207573 \
+Isaac Harari A01024688 \
+Yann Le Lorier Bárcena A01025977 \
+Simon Metta A01377925
+
+## Conceptos tomados en cuenta
+
+- [x] Fields
+- [x] Arguments
+- [x] Aliases
+- [x] Fragments
+- [x] Operation name
+- [x] Variables
+- [x] Directives
+- [x] Inline fragments
+- [x] Meta fields
+
+Información tomada de [GraphQL.org](https://graphql.org/learn/queries/)
+
 ## Producciones
 
-### Explicaciones
-#### expr: símbolo inicial
-~~~expr: '{'table ('(' conditions ')')? ('{' params '}')? '}'; ~~~:
+```antlr
+expr: querydef              #queryexpr|
+      fragmentDef           #fragexpr  
+      ;
+```
 
-Como el alcance del DSL que estamos realizando se reduce a queries, no tomamos en cuenta mutaciones, por lo que un documento de GraphQL toma en cuenta la tabla sobre la cual estamos haciendo consultas, las condiciones de búsqueda y los parámetros que queremos obtener.
+Una expresión para una consulta se puede ver como un fragmento (que puede ayudar a hacer la consulta de manera más simple) o bien un query.
 
-#### Definición de tablas
-~~~table: ID;~~~
+Específicamente:
 
-Una tabla se define como un ID que va antes de los paréntesis de condiciones.
+```antrl4
+querydef: QUERY ID? ('('conditions')')? '{' table  ('(' conditions ')')? ('{'params'}')? '}' #defquery;
 
-#### Condiciones
-~~~conditions: condition conditions  | ;~~~
-las condiciones de búsqueda pueden ser varias, o pueden no existir (obtener todo)
+fragmentDef: 'fragment' ID 'on' table '{' params '}';
+```
 
-~~~condition: ID logop ID| ID logop NUM;~~~
-Las condiciones se definen con una operación lógica de por medio
+Por nuestra definición de la gramática: \
+**Para Query:**
 
-#### Operaciones Lógicas
-Las operaciones lógicas definidas en la gramática son:
-- **":"** se trata del operador lógico de la igualdad (también definimos a **"_eq"**, símbolo equivalente)
-- **"_gt y _lt"** Operadores lógicos pára desigualdad
-- **"_lte y _gte"** Operadores lógicos para desigualdad (o igualdad)
+- Siempre debemos de especificar el tipo de operación (sólo se acepta ```query```)
+- Podemos agregarle un nombre a la operación con ```ID``` (opcional)
+- Condiciones de búsqueda (```conditions```)
+- la tabla en la que deseamos hacer las operaciones ```table```
+- Más condiciones ```conditions```
+- Los parámetros de búsqueda que nos permiten proyectar los resultados ```params```
 
-#### Parámetros
-Los parámetros de una consulta permiten proyectar los resultados que queremos obtener. De ésta forma, podemos tener 0 o más parámetros.
+**Para Fragment:**
 
-~~~params: param params;~~~
+- la palabra ```fragment``` para describir que estamos declarando un fragmento
+- El nombre del fragmento con ```ID```
+- ```on``` para saber en qué tabla operamos
+- ```params``` para las proyecciones.
 
-~~~param: ID ('(' conditions ')')? | expr;~~~
-Los parámetros pueden ser ciertos campos de algun atributo de la tabla, que podemos condicionar opcionalmente, y proyectar a otras tablas (Es por eso que volvemos a ver expr en esta producción)
+## Algunos ejemplos para probar
 
+```GraphQL
+query {
+  search(text: "an") {
+    __typename
+    ... on Human {
+      name
+    }
+    ... on Droid {
+      name
+    }
+    ... on Starship {
+      name
+    }
+  }
+}
+```
 
+```GraphQL
+query HeroNameAndFriends($episode: Episode) {
+  hero(episode: $episode) {
+    name
+    friends {
+      name
+    }
+  }
+}
+```
+
+```GraphQL
+query HeroComparison($first: "hola") {
+  leftComparison: hero(episode: EMPIRE) {
+    ...comparisonFields
+  }
+  rightComparison: hero(episode: JEDI) {
+    ...comparisonFields
+  }
+}
+```
+
+```GraphQL
+query {
+  empireHero: hero(episode: EMPIRE) {
+    name
+  }
+  jediHero: hero(episode: JEDI) {
+    name
+  }
+}
+```
+
+```GraphQL
+query {
+  human(id: "1000") {
+    name
+    height
+  }
+}
+```
+
+Declaración de fragmentos
+
+```GraphQL
+fragment comparisonFields on Character {
+  name
+  appearsIn
+  friends {
+    name
+  }
+}
+```
 ## Referencias
-Nos basamos principalmente en el siguiente repositorio:
- 
 
+Nos basamos principalmente en el siguiente repositorio, entendiendo minuciosamente los conceptos, y seleccionando lo que nos servía de: \
+[charithe/GraphQL](https://github.com/charithe/antlr4-graphql/blob/master/GraphQL.g4)

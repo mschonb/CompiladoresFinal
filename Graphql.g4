@@ -1,39 +1,94 @@
 grammar Graphql;
 
-expr: '{' WS? table WS?'}' WS? #exprDef;
-//('(' conditions ')')? ('{'params'}')? '}' NEWLINE? #mainExpr;
+expr: querydef                                                          #queryexpr  |
+      fragmentDef                                                       #fragexpr  
+      ;
 
-table: ID #tableDef;
+querydef: QUERY ID? ('('conditions')')? '{' table  ('(' conditions ')')? ('{'params'}')? '}' #defquery;
 
-conditions: condition conditions  #ConditionCondition |
-                                  #ConditionsEpsilon  
-            ;
+fragmentDef: 'fragment' ID 'on' table '{' params '}';
 
-condition: ID logop ID            #idOPid           |
-           ID logop NUM           #idOPnum     
+table: ID                                                               #tableDef
+     ;
+
+
+condition: value logop factor                                           #idOPval
+        
+        ;
+factor: 
+        value                                                           #factorValue       |
+        value assignment value                                          #factorAssValue
         ;
 
+assignment: '='                                                         #Defvar
+          ;
 
-logop: ':'                        #equalOP    |
-       ID'_eq'                    #eqOP       |
-       ID'_gt'                    #gtOP       |
-       ID'_lt'                    #ltOP       |
-       ID'_gte'                   #gteOP      |
-       ID'_lte'                   #lteOP
+conditions: condition ',' conditions                                    #conditionconditions |
+        condition                                                       #singlecondition     |
+                                                                        #emptycondition
+            ;
+
+logop: ':'                                                              #equalOP    |
+       '_eq'                                                            #eqOP       |
+       '_gt'                                                            #gtOP       |
+       '_lt'                                                            #ltOP       |
+       '_gte'                                                           #gteOP      |
+       '_lte'                                                           #lteOP      
        ;
 
-params: param params  NEWLINE?              #paramParams |
-        '{' param '}' NEWLINE?             #paramBrackets
+
+params:  param params                                                   #paramParams   |
+         '{' param params '}'                                           #paramBrackets |
+                                                                        #emptyParam
+         ;
+
+param:  introspection? (ID':')? ID ('(' conditions ')')?  directive?    #paramIDcond   |
+        introspection? (ID':')? querydef directive?                     #exprParam     |
+        introspection? fragmentQ  directive?                            #fragmentParam
     ;
 
-param: ID ('(' conditions ')')?   #paramIDcond |
-       expr                       #exprParam
+value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID            
     ;
 
+variable
+    : '$' ID                                                            #variables
+    ;
+
+alias: ID ;
+
+fragmentQ : '...' ID                                                    #fragmentID       |
+            '...' 'on' table '{'params'}'                               #inlinefragment
+            ;
+
+directive: '@include' '(' 'if' ':' value ')'                            #includedirective |
+           '@skip' '(' 'if' ':' value ')'                               #skipdirective
+           ;
+           
+introspection: INTROSPECTION                                            #anyintrospection;
+
+//terminales
+INTROSPECTION: '__schema' | '__type' | '__typeKind' | '__field' | '__inputValue' | '__enumValue' | '__directive';
+BOOLEAN
+    : 'true' | 'false'
+    ;
+
+FLOAT
+    : NUM '.' NUM
+    ;
+
+NULL
+    : 'null'
+    ;
+
+STRING
+    : '"' (ESCAPED_CHAR | ~["\\])* '"'
+    ;
+
+fragment ESCAPED_CHAR
+    : '\\' ["\\/bfnrt]
+    ;
+QUERY: 'query';
 NUM: [0-9]+;
-NEWLINE : [\n\r]+ ;
-//INT     : DIGIT+ ;
-DIGIT   : [0-9];
-ID      : LETTER (DIGIT | LETTER)*[_]*;
-LETTER  : [A-Za-z];
+ID : [A-Za-z][_0-9A-Za-z]*;
 WS      : [ \n\t\r]+ -> skip;
+COMMENT: '#' ~[\r\n]* -> skip;
