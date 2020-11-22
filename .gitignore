@@ -1,5 +1,16 @@
+.vscode/
+.antlr/
 *.java
 *.class
 *.tokens
 *.interp
 .antlr/
+*.aux
+*.fls
+*.log
+*.synctex
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+articulo.pdf

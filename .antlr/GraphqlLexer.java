@@ -1,4 +1,4 @@
-// Generated from /home/yannsdebian/Documents/TEC/semestre7/compilers/proyecto/CompiladoresFinal/Graphql.g4 by ANTLR 4.8
+// Generated from /Users/yannlelorier/Documents/Yann Le Lorier/TEC/Semestre 7/compilers/CompiladoresFinal/Graphql.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
