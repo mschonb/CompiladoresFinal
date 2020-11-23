@@ -24,21 +24,21 @@ params: param params
       |
       ;
  
-param: introspection? field ('('conditions')')? directive?
-     | introspection? queryblock directive?
-     | introspection? fragmentQ directive?
+param: introspection? field ('('conditions')')? directive?  #ParamField
+     | introspection? queryblock directive?                 #ParamQueryblock
+     | introspection? fragmentQ directive?                  #ParamFragQ
      ;
  
-fragmentQ : '...' ID
-          | '...' 'on' table '{'params'}'
+fragmentQ : '...' ID                            #FragID
+          | '...' 'on' table '{'params'}'       #FragOnParams
             ;
  
-condition:  value logop factor
-         |
+condition:  value logop factor      #CondValFact
+         |                          #CondEpsilon
          ;
  
-factor: value
-      | value assignment value
+factor: value                       #FactorVal
+      | value assignment value      #FactorValAssVal
       ;
  
 assignment: '='
@@ -51,7 +51,7 @@ alias: ID;
  
 field: (alias ':')? ID;
  
-value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID;
+value: variable #ValVal| FLOAT #ValFloat| NUM #ValNum| STRING #ValString| BOOLEAN #ValBool| NULL #ValNull| ID #ValID;
 
 
  

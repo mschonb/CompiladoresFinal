@@ -493,6 +493,29 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class ParamContext extends ParserRuleContext {
+		public ParamContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_param; }
+	 
+		public ParamContext() { }
+		public void copyFrom(ParamContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ParamFragQContext extends ParamContext {
+		public FragmentQContext fragmentQ() {
+			return getRuleContext(FragmentQContext.class,0);
+		}
+		public IntrospectionContext introspection() {
+			return getRuleContext(IntrospectionContext.class,0);
+		}
+		public DirectiveContext directive() {
+			return getRuleContext(DirectiveContext.class,0);
+		}
+		public ParamFragQContext(ParamContext ctx) { copyFrom(ctx); }
+	}
+	public static class ParamFieldContext extends ParamContext {
 		public FieldContext field() {
 			return getRuleContext(FieldContext.class,0);
 		}
@@ -505,16 +528,19 @@ public class GraphqlParser extends Parser {
 		public DirectiveContext directive() {
 			return getRuleContext(DirectiveContext.class,0);
 		}
+		public ParamFieldContext(ParamContext ctx) { copyFrom(ctx); }
+	}
+	public static class ParamQueryblockContext extends ParamContext {
 		public QueryblockContext queryblock() {
 			return getRuleContext(QueryblockContext.class,0);
 		}
-		public FragmentQContext fragmentQ() {
-			return getRuleContext(FragmentQContext.class,0);
+		public IntrospectionContext introspection() {
+			return getRuleContext(IntrospectionContext.class,0);
 		}
-		public ParamContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
+		public DirectiveContext directive() {
+			return getRuleContext(DirectiveContext.class,0);
 		}
-		@Override public int getRuleIndex() { return RULE_param; }
+		public ParamQueryblockContext(ParamContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ParamContext param() throws RecognitionException {
@@ -526,6 +552,7 @@ public class GraphqlParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
+				_localctx = new ParamFieldContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(101);
@@ -567,6 +594,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new ParamQueryblockContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(114);
@@ -594,6 +622,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new ParamFragQContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(121);
@@ -634,17 +663,28 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class FragmentQContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public FragmentQContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_fragmentQ; }
+	 
+		public FragmentQContext() { }
+		public void copyFrom(FragmentQContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FragOnParamsContext extends FragmentQContext {
 		public TableContext table() {
 			return getRuleContext(TableContext.class,0);
 		}
 		public ParamsContext params() {
 			return getRuleContext(ParamsContext.class,0);
 		}
-		public FragmentQContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_fragmentQ; }
+		public FragOnParamsContext(FragmentQContext ctx) { copyFrom(ctx); }
+	}
+	public static class FragIDContext extends FragmentQContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public FragIDContext(FragmentQContext ctx) { copyFrom(ctx); }
 	}
 
 	public final FragmentQContext fragmentQ() throws RecognitionException {
@@ -655,6 +695,7 @@ public class GraphqlParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
+				_localctx = new FragIDContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(129);
@@ -664,6 +705,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new FragOnParamsContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(131);
@@ -694,6 +736,17 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
+		public ConditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_condition; }
+	 
+		public ConditionContext() { }
+		public void copyFrom(ConditionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class CondValFactContext extends ConditionContext {
 		public ValueContext value() {
 			return getRuleContext(ValueContext.class,0);
 		}
@@ -703,10 +756,10 @@ public class GraphqlParser extends Parser {
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
 		}
-		public ConditionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_condition; }
+		public CondValFactContext(ConditionContext ctx) { copyFrom(ctx); }
+	}
+	public static class CondEpsilonContext extends ConditionContext {
+		public CondEpsilonContext(ConditionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ConditionContext condition() throws RecognitionException {
@@ -723,6 +776,7 @@ public class GraphqlParser extends Parser {
 			case NULL:
 			case STRING:
 			case BOOLEAN:
+				_localctx = new CondValFactContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(140);
@@ -735,6 +789,7 @@ public class GraphqlParser extends Parser {
 				break;
 			case T__1:
 			case T__6:
+				_localctx = new CondEpsilonContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				}
@@ -755,6 +810,17 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class FactorContext extends ParserRuleContext {
+		public FactorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_factor; }
+	 
+		public FactorContext() { }
+		public void copyFrom(FactorContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FactorValAssValContext extends FactorContext {
 		public List<ValueContext> value() {
 			return getRuleContexts(ValueContext.class);
 		}
@@ -764,10 +830,13 @@ public class GraphqlParser extends Parser {
 		public AssignmentContext assignment() {
 			return getRuleContext(AssignmentContext.class,0);
 		}
-		public FactorContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
+		public FactorValAssValContext(FactorContext ctx) { copyFrom(ctx); }
+	}
+	public static class FactorValContext extends FactorContext {
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
 		}
-		@Override public int getRuleIndex() { return RULE_factor; }
+		public FactorValContext(FactorContext ctx) { copyFrom(ctx); }
 	}
 
 	public final FactorContext factor() throws RecognitionException {
@@ -778,6 +847,7 @@ public class GraphqlParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
+				_localctx = new FactorValContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(147);
@@ -785,6 +855,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new FactorValAssValContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(148);
@@ -954,19 +1025,45 @@ public class GraphqlParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
-		public VariableContext variable() {
-			return getRuleContext(VariableContext.class,0);
-		}
-		public TerminalNode FLOAT() { return getToken(GraphqlParser.FLOAT, 0); }
-		public TerminalNode NUM() { return getToken(GraphqlParser.NUM, 0); }
-		public TerminalNode STRING() { return getToken(GraphqlParser.STRING, 0); }
-		public TerminalNode BOOLEAN() { return getToken(GraphqlParser.BOOLEAN, 0); }
-		public TerminalNode NULL() { return getToken(GraphqlParser.NULL, 0); }
-		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
+	 
+		public ValueContext() { }
+		public void copyFrom(ValueContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ValFloatContext extends ValueContext {
+		public TerminalNode FLOAT() { return getToken(GraphqlParser.FLOAT, 0); }
+		public ValFloatContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValBoolContext extends ValueContext {
+		public TerminalNode BOOLEAN() { return getToken(GraphqlParser.BOOLEAN, 0); }
+		public ValBoolContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValIDContext extends ValueContext {
+		public TerminalNode ID() { return getToken(GraphqlParser.ID, 0); }
+		public ValIDContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValStringContext extends ValueContext {
+		public TerminalNode STRING() { return getToken(GraphqlParser.STRING, 0); }
+		public ValStringContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValValContext extends ValueContext {
+		public VariableContext variable() {
+			return getRuleContext(VariableContext.class,0);
+		}
+		public ValValContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValNumContext extends ValueContext {
+		public TerminalNode NUM() { return getToken(GraphqlParser.NUM, 0); }
+		public ValNumContext(ValueContext ctx) { copyFrom(ctx); }
+	}
+	public static class ValNullContext extends ValueContext {
+		public TerminalNode NULL() { return getToken(GraphqlParser.NULL, 0); }
+		public ValNullContext(ValueContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ValueContext value() throws RecognitionException {
@@ -977,6 +1074,7 @@ public class GraphqlParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__15:
+				_localctx = new ValValContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(172);
@@ -984,6 +1082,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case FLOAT:
+				_localctx = new ValFloatContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(173);
@@ -991,6 +1090,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case NUM:
+				_localctx = new ValNumContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(174);
@@ -998,6 +1098,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case STRING:
+				_localctx = new ValStringContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(175);
@@ -1005,6 +1106,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case BOOLEAN:
+				_localctx = new ValBoolContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(176);
@@ -1012,6 +1114,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case NULL:
+				_localctx = new ValNullContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(177);
@@ -1019,6 +1122,7 @@ public class GraphqlParser extends Parser {
 				}
 				break;
 			case ID:
+				_localctx = new ValIDContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(178);
