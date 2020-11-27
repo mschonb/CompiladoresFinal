@@ -1,21 +1,11 @@
-public class Factor extends Node {
-    int value;
-    Id id;
+public class Factor {
+    private int value;
 
-    public Factor(Id id){
-        this.id = id;
-    }
-    public Factor(int num){
-        this.value = num;
+    public Factor(int value) {
+        this.value = value;
     }
 
-    @Override
-    public int ejec(){
-        if(id != null){
-            return id.ejec();
-        }
-        else{
-            return value;
-        }
+    public int getFactor() {
+        return this.value;
     }
 }

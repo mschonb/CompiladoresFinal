@@ -1,63 +1,88 @@
 grammar TAC;
 
-
-// Program -> [label:] Statement Program | EOF
-// Statement -> Assignment | print Expression | halt | goto label
-//              | BooleanExpr
-// Expression -> Factor | Factor op Factor
-// Factor -> id | boolean | flt
-// Assignment -> id = Expression
-// BooleanExpr -> if Expression Statement
-//                 | iffalse Expression Statement
-
-program: stmnts;
-
-stmnts : stmnts stmnt           #StmntsStmnt
-       |                        #EmptyStmnt
-       ;
-
-stmnt : (ID ':')? 'print' '(' acc ')'     #PrintAccStmnt
-      | (ID ':')? 'print' '(' factor ')'  #PrintFactStmnt
-      | (ID ':')? 'goto' ID               #GotoStmnt
-      | (ID ':')? assignment              #AssStmnt
-      //TODO: ifTrue and ifFalse label?
-      | 'ifTrue' factor 'goto'  ID         #IfTrueStmnt
-      | 'ifFalse' factor 'goto' ID        #IfFalseStmnt
+expr: querydef              #queryexpr|
+      fragmentDef           #fragexpr
       ;
 
-op : factor '*' factor          #MultOperator
-   | factor '/' factor          #DivOperator
-   | factor '+' factor          #PlusOperator
-   | factor '-' factor          #MinusOperator
-   | factor '<' factor          #RelationalOperator
-   ;
+querydef: QUERY ID? ('('conditions')')? '{' (params?  '('conditions')'?)* '}' #defquery;
 
-factor : ID                     #IdFact
-       | NUM                    #NumFact
-       ;
+fragmentDef: 'fragment' ID 'on' table '{' params '}';
 
-acc : ID                          #IDAcc
-    | ID '[' factor ']'           #ArrayAcc
-    ;
+table: (alias':')? ID                   #tableDef
+     ;
 
-assignment : acc '=' op        #AssignmentOp
-           | acc '=' factor    #AssignmentFact
+
+condition: value logop value           #idOPval
            ;
 
+conditions: condition ',' conditions    #conditionconditions |
+            condition                   #singlecondition     |
+                                        #emptycondition
+            ;
 
-//Base types
+logop: ':'                          #equalOP    |
+       '_eq'                        #eqOP       |
+       '_gt'                        #gtOP       |
+       '_lt'                        #ltOP       |
+       '_gte'                       #gteOP      |
+       '_lte'                       #lteOP
+       ;
+
+params:  param params               #paramParams |
+         '{' param params '}'       #paramBrackets |
+                                    #emptyParam
+         ;
+
+param:  INTROSPECTION? (alias':')? ID ('(' conditions ')')?  directive? #paramIDcond   |
+        INTROSPECTION? (alias':')? querydef directive?                  #exprParam     |
+        INTROSPECTION? fragmentQ  directive?                            #fragmentParam
+    ;
+
+value
+    : variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID
+    ;
+
+variable
+    : '$' ID
+    ;
+
+BOOLEAN
+    : 'true' | 'false'
+    ;
+
+FLOAT
+    : NUM '.' NUM
+    ;
+
+NULL
+    : 'null'
+    ;
+
+STRING
+    : '"' (ESCAPED_CHAR | ~["\\])* '"'
+    ;
+
+fragment ESCAPED_CHAR
+    : '\\' ["\\/bfnrt]
+    ;
 
 
-NUM : [0-9]+;
-//BOOLEAN : 'True'|'False';
-ID : [A-Za-z][0-9A-Za-z]*;
-WS: [ \t\r\n]+ -> skip;
+alias: ID ;
 
-//f = 1
-//n = 1
-//repeat: t1 = n < 5
-//ifFalse t1 goto end
-//f = f * n
-//n = n + 1
-//goto repeat
-//end: print(f)
+fragmentQ : '...' ID                      #fragmentID   |
+            '...' 'on' table '{'params'}' #inlinefragment
+            ;
+
+directive: '@include' '(' 'if' ':' value ')'   #includedirective |
+           '@skip' '(' 'if' ':' value ')'      #skipdirective
+           ;
+
+INTROSPECTION: '__schema' | '__type' | '__typeKind' | '__field' | '__inputValue' | '__enumValue' | '__directive';
+QUERY: 'query';
+NUM: [0-9]+;
+ID : [A-Za-z][_0-9A-Za-z]*;
+WS      : [ \n\t\r]+ -> skip;
+COMMENT
+    : '#' ~[\r\n]* -> skip
+    ;
+
