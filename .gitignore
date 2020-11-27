@@ -19,5 +19,6 @@ Graphql*.java
 *.synctex.gz
 *.bbl
 *.blg
+*.out
 #generated tex pdf
 articulo.pdf
