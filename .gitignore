@@ -1,10 +1,16 @@
 .vscode/
 .antlr/
-*.java
+
+#antlr generateed files
+Graphql*.java
+#no classes
 *.class
+#no tokens
 *.tokens
+#no interpreters
 *.interp
-.antlr/
+
+#Latex aux files
 *.aux
 *.fls
 *.log
@@ -13,4 +19,6 @@
 *.synctex.gz
 *.bbl
 *.blg
+*.out
+#generated tex pdf
 articulo.pdf
