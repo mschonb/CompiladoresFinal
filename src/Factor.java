@@ -16,9 +16,8 @@ public class Factor {
     public String getFactor() {
         if (value instanceof Bool || value instanceof MiFloat || value instanceof Int) {
             if (value2 != null && (value2 instanceof Bool || value2 instanceof MiFloat || value2 instanceof Int)) {
-                System.out.println("Entre aqui perro2");
-                return "(" + this.value + this.assign + this.value2.getValue() + ')';
+                return "(" + this.value.getValue() + this.assign + this.value2.getValue() + ')';
             }else return this.value.getValue();
-        } else return this.value.toString();
+        } else return this.value.getValue();
     }
 }
