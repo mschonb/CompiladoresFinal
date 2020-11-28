@@ -1,0 +1,7 @@
+*.class
+*.tokens
+*.interp
+*.java
+.antlr/
+.vscode/
+articulo.pdf
