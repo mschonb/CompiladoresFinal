@@ -58,10 +58,12 @@ public class MiListener extends testBaseListener {
     @Override public void enterCondition(testParser.ConditionContext ctx) {
         //TODO logic for not INT
 
-
-        Factor fact = new Factor(Integer.parseInt(ctx.factor().getText()));
+        Value valFact = new Value(ctx.factor().getText());
+        //datatype check
+        valFact = checkValue(valFact);
+        Factor fact = new Factor(valFact);
         Value val = new Value(ctx.value().getText());
-        //datatype?
+        //datatype check
         val = checkValue(val);
         LogOp op = new LogOp(ctx.logop().getText());
 
@@ -113,10 +115,10 @@ public class MiListener extends testBaseListener {
     @Override public void visitErrorNode(ErrorNode node) { }
 
     public Value checkValue(Value value) {
-        int intVal;
-        float floatVal;
-        Bool boolVal;
-        VarName stringVal;
+        Integer intVal = null;
+        Float floatVal = null;
+        Bool boolVal = null;
+        VarName stringVal = null;
 
         //try catch for val = int
         try {
@@ -138,7 +140,17 @@ public class MiListener extends testBaseListener {
             }
 
         }
-        return
+        if (intVal != null) {
+            return new Int(intVal);
+        }else if (floatVal != null) {
+            return new MiFloat(floatVal);
+        }else if (boolVal != null) {
+            //bool obj already exists
+            return boolVal;
+        }
+        //worst case:
+        return stringVal;
+
     }
 
 
