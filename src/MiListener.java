@@ -58,8 +58,11 @@ public class MiListener extends testBaseListener {
     @Override public void enterCondition(testParser.ConditionContext ctx) {
         //TODO logic for not INT
 
+
         Factor fact = new Factor(Integer.parseInt(ctx.factor().getText()));
         Value val = new Value(ctx.value().getText());
+        //datatype?
+        val = checkValue(val);
         LogOp op = new LogOp(ctx.logop().getText());
 
         Condition condition = new Condition(val, op, fact);
@@ -72,10 +75,6 @@ public class MiListener extends testBaseListener {
     @Override public void enterFactor(testParser.FactorContext ctx) { }
     
     @Override public void exitFactor(testParser.FactorContext ctx) { }
-    
-    @Override public void enterAssignment(testParser.AssignmentContext ctx) { }
-    
-    @Override public void exitAssignment(testParser.AssignmentContext ctx) { }
     
     @Override public void enterTable(testParser.TableContext ctx) { }
     
@@ -97,10 +96,6 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitLogop(testParser.LogopContext ctx) { }
     
-    @Override public void enterVariable(testParser.VariableContext ctx) { }
-    
-    @Override public void exitVariable(testParser.VariableContext ctx) { }
-    
     @Override public void enterDirective(testParser.DirectiveContext ctx) { }
     
     @Override public void exitDirective(testParser.DirectiveContext ctx) { }
@@ -109,7 +104,6 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitIntrospection(testParser.IntrospectionContext ctx) { }
 
-    
     @Override public void enterEveryRule(ParserRuleContext ctx) { }
     
     @Override public void exitEveryRule(ParserRuleContext ctx) { }
@@ -117,5 +111,36 @@ public class MiListener extends testBaseListener {
     @Override public void visitTerminal(TerminalNode node) { }
     
     @Override public void visitErrorNode(ErrorNode node) { }
+
+    public Value checkValue(Value value) {
+        int intVal;
+        float floatVal;
+        Bool boolVal;
+        VarName stringVal;
+
+        //try catch for val = int
+        try {
+            intVal = Integer.parseInt(value.getValue());
+        }
+        //try for val = float
+        catch (NumberFormatException ne) {
+            try {
+                floatVal = Float.parseFloat(value.getValue());
+                //boolean (new class which throws exception)
+            } catch (NumberFormatException nee) {
+                try {
+                    boolVal = new Bool(value.getValue());
+                    //is string, variable ($var), or id
+                } catch (IllegalArgumentException ia) {
+                    stringVal = new VarName(value.getValue());
+                }
+
+            }
+
+        }
+        return
+    }
+
+
 
 }

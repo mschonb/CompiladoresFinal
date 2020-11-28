@@ -1,4 +1,4 @@
-// Generated from C:/Users/A01207573/IdeaProjects/Compiladores2/src\test.g4 by ANTLR 4.8
+// Generated from /home/yannsdebian/Documents/TEC/semestre7/compilers/proyecto/CompiladoresFinal/src/test.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

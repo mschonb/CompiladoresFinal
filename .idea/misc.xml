@@ -16,7 +16,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/test.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\A01207573\IdeaProjects\Compiladores2\src" />
+          <option name="outputDir" value="$PROJECT_DIR$/src" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
