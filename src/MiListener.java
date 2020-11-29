@@ -11,6 +11,7 @@ public class MiListener extends testBaseListener {
 
     private List<Condition> conditions = new ArrayList<>();
     private List<Table> tables = new ArrayList<>();
+    private List<Query> queries = new ArrayList<>();
     static int tableIndex = -1;
 
     @Override public void enterExpr(testParser.ExprContext ctx) { }
@@ -19,7 +20,18 @@ public class MiListener extends testBaseListener {
     
     @Override public void enterQuery(testParser.QueryContext ctx) { }
     
-    @Override public void exitQuery(testParser.QueryContext ctx) { }
+    @Override public void exitQuery(testParser.QueryContext ctx) {
+        if (queries.size() > 1) {
+            for (Query query:queries) {
+                //TODO wtf here
+            }
+        }else if (queries.size() == 1) {
+            System.out.println(queries.get(0).stringify());
+        }else {
+            System.out.println("Error. Queries not found.");
+            System.exit(-1);
+        }
+    }
 
     @Override public void enterFragmentDef(testParser.FragmentDefContext ctx) { }
     
@@ -27,16 +39,14 @@ public class MiListener extends testBaseListener {
     
     @Override public void enterQueryblocks(testParser.QueryblocksContext ctx) { }
     
-    @Override public void exitQueryblocks(testParser.QueryblocksContext ctx) {
-
-    }
+    @Override public void exitQueryblocks(testParser.QueryblocksContext ctx) { }
     //query { tabla {  } } == SELECT * FROM TABLA
     
     @Override public void enterQueryblock(testParser.QueryblockContext ctx) { }
     
     @Override public void exitQueryblock(testParser.QueryblockContext ctx) {
         Query query  = new Query(tables.get(tableIndex), conditions);
-        System.out.println(query.stringify());
+        queries.add(query);
     }
     
     @Override public void enterConditions(testParser.ConditionsContext ctx) { }
@@ -101,7 +111,7 @@ public class MiListener extends testBaseListener {
         if (ctx.alias() != null) {
             alias = alias + ctx.alias().getText();
         }
-        tables.get(tableIndex).addField(new Field(ctx.ID().getText(), alias), tableIndex);
+        tables.get(tableIndex).addField(new Field(ctx.ID().getText(), alias, tables.get(tableIndex).getTableName()), tableIndex);
 
     }
     

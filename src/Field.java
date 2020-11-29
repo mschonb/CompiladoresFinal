@@ -2,20 +2,20 @@ public class Field {
 
     private String name;
     private String alias;
+    private String tableName;
 
-    public Field(String name, String alias) {
+    public Field(String name, String alias, String tableName) {
         this.name = name;
-        if (alias != null)
-            this.alias = alias;
-        else this.alias = "";
+        this.alias = alias;
+        this.tableName = tableName;
 
     }
 
     public String getValue() {
         if ("".equals(this.alias)) {
-            return name;
+            return tableName+"."+name;
         }else{
-            return name + " AS " + this.alias;
+            return tableName+"."+name + " AS " + this.alias;
         }
 
     }

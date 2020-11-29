@@ -18,6 +18,10 @@ public class Table {
         this.fields.put(field, tableIndex);
     }
 
+    public String getTableName() {
+        return this.tableName.getValue();
+    }
+
     public String stringify() {
         String att = "";
         int count = 0; //keeping last comma out
