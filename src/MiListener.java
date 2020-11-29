@@ -10,10 +10,14 @@ import java.util.List;
 public class MiListener extends testBaseListener {
 
     private List<Condition> conditions = new ArrayList<>();
+    private List<Table> tables = new ArrayList<>();
+    static int tableIndex = -1;
 
     @Override public void enterExpr(testParser.ExprContext ctx) { }
     
-    @Override public void exitExpr(testParser.ExprContext ctx) { }
+    @Override public void exitExpr(testParser.ExprContext ctx) {
+
+    }
     
     @Override public void enterQuery(testParser.QueryContext ctx) { }
     
@@ -25,16 +29,23 @@ public class MiListener extends testBaseListener {
     
     @Override public void enterQueryblocks(testParser.QueryblocksContext ctx) { }
     
-    @Override public void exitQueryblocks(testParser.QueryblocksContext ctx) { }
+    @Override public void exitQueryblocks(testParser.QueryblocksContext ctx) {
+
+    }
+    //query { tabla {  } } == SELECT * FROM TABLA
     
     @Override public void enterQueryblock(testParser.QueryblockContext ctx) {
-        System.out.println("entered QueryBlock");
-        System.out.println(ctx.table().ID().getText());
+        //System.out.println("entered QueryBlock");
+        //System.out.println(ctx.table().ID().getText());
+        tables.add(new Table(ctx.table().getText(), new ArrayList<VarName>()));
+        //keeping track of which table index we're in
+        tableIndex++;
 
     }
     
     @Override public void exitQueryblock(testParser.QueryblockContext ctx) {
-        Query query  = new Query(conditions);
+        Query query  = new Query(tables.get(tableIndex), conditions);
+        //System.out.println("tables "+ tables.get(0).getTableName());
         System.out.println(query.stringify());
     }
     
@@ -47,7 +58,10 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitParams(testParser.ParamsContext ctx) { }
     
-    @Override public void enterParam(testParser.ParamContext ctx) { }
+    @Override public void enterParam(testParser.ParamContext ctx) {
+        VarName id = new VarName(ctx.field().getText());
+        tables.get(tableIndex).addField(id);
+    }
     
     @Override public void exitParam(testParser.ParamContext ctx) { }
     
@@ -85,8 +99,11 @@ public class MiListener extends testBaseListener {
     @Override public void enterAlias(testParser.AliasContext ctx) { }
     
     @Override public void exitAlias(testParser.AliasContext ctx) { }
-    
-    @Override public void enterField(testParser.FieldContext ctx) { }
+
+    @Override public void enterField(testParser.FieldContext ctx) {
+
+
+    }
     
     @Override public void exitField(testParser.FieldContext ctx) { }
     
@@ -152,7 +169,4 @@ public class MiListener extends testBaseListener {
         return stringVal;
 
     }
-
-
-
 }

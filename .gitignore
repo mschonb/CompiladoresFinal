@@ -3,6 +3,5 @@
 *.interp
 *.java
 .antlr/
-.idea/
 .vscode/
 articulo.pdf
