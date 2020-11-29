@@ -35,8 +35,6 @@ public class MiListener extends testBaseListener {
     //query { tabla {  } } == SELECT * FROM TABLA
     
     @Override public void enterQueryblock(testParser.QueryblockContext ctx) {
-        //System.out.println("entered QueryBlock");
-        //System.out.println(ctx.table().ID().getText());
         tables.add(new Table(ctx.table().getText(), new ArrayList<VarName>()));
         //keeping track of which table index we're in
         tableIndex++;
@@ -45,7 +43,6 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitQueryblock(testParser.QueryblockContext ctx) {
         Query query  = new Query(tables.get(tableIndex), conditions);
-        //System.out.println("tables "+ tables.get(0).getTableName());
         System.out.println(query.stringify());
     }
     
@@ -70,8 +67,6 @@ public class MiListener extends testBaseListener {
     @Override public void exitFragmentQ(testParser.FragmentQContext ctx) { }
     
     @Override public void enterCondition(testParser.ConditionContext ctx) {
-        //TODO logic for not INT
-
         Value valFact = new Value(ctx.factor().getText());
         //datatype check
         valFact = checkValue(valFact);
@@ -83,7 +78,6 @@ public class MiListener extends testBaseListener {
 
         Condition condition = new Condition(val, op, fact);
         conditions.add(condition);
-
     }
     
     @Override public void exitCondition(testParser.ConditionContext ctx) { }
@@ -101,8 +95,6 @@ public class MiListener extends testBaseListener {
     @Override public void exitAlias(testParser.AliasContext ctx) { }
 
     @Override public void enterField(testParser.FieldContext ctx) {
-
-
     }
     
     @Override public void exitField(testParser.FieldContext ctx) { }
