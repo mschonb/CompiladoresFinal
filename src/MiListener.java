@@ -64,7 +64,6 @@ public class MiListener extends testBaseListener {
         //datatype check
         val = checkValue(val);
         LogOp op = new LogOp(ctx.logop().getText());
-
         Condition condition = new Condition(val, op, fact);
         conditions.add(condition);
     }
@@ -81,10 +80,11 @@ public class MiListener extends testBaseListener {
         //keeping track of which table index we're in
         tableIndex++;
         VarName tableName = new VarName(ctx.ID().getText());
-        String tableAlias = null;
-        if (ctx.alias().getText() != null) {
-            tableAlias = ctx.alias().getText();
+        String tableAlias = "";
+        if (ctx.alias() != null) {
+            tableAlias = tableAlias + ctx.alias().getText();
         }
+
         tables.add(new Table(tableName, new HashMap<Field, Integer>(), tableAlias));
     }
     
@@ -96,12 +96,13 @@ public class MiListener extends testBaseListener {
     }
     
     @Override public void exitField(testParser.FieldContext ctx) {
-        String alias = null;
+        String alias = "";
 
-        if (!ctx.alias().isEmpty()) {
-            alias = ctx.alias().getText();
+        if (ctx.alias() != null) {
+            alias = alias + ctx.alias().getText();
         }
         tables.get(tableIndex).addField(new Field(ctx.ID().getText(), alias), tableIndex);
+
     }
     
     @Override public void enterValue(testParser.ValueContext ctx) { }

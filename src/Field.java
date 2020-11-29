@@ -12,7 +12,7 @@ public class Field {
     }
 
     public String getValue() {
-        if (this.alias.equals("")) {
+        if ("".equals(this.alias)) {
             return name;
         }else{
             return name + " AS " + this.alias;

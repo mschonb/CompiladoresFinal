@@ -10,8 +10,7 @@ public class Table {
     public Table(VarName tableName, HashMap<Field, Integer> fields, String tableAlias) {
         this.tableName = tableName;
         this.fields = fields;
-        if (tableAlias != null) this.tableAlias = tableAlias;
-        else this.tableAlias = "";
+        this.tableAlias = tableAlias;
 
     }
 
@@ -25,7 +24,7 @@ public class Table {
         if (fields.size()>0){
             for (Field key : fields.keySet()) {
                 if (count < fields.size() - 1) {
-                    att = att.concat(key.getValue()) + ",";
+                    att = att.concat(key.getValue()) + ", ";
                 } else {
                     att = att.concat(key.getValue());
                 }
@@ -34,7 +33,8 @@ public class Table {
 
         }else
             att = "*";
-        if (this.tableAlias != null) return att + " FROM " + this.tableName.getValue() + " AS " + this.tableAlias;
-        return att + " FROM " + this.tableName.getValue();
+        if ("".equals(this.tableAlias)) return att + " FROM " + this.tableName.getValue();
+
+        return att + " FROM " + this.tableName.getValue() + " AS " + this.tableAlias;
     }
 }
