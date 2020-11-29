@@ -14,7 +14,6 @@ public class Query {
         String selectStr;
         selectStr = "SELECT ";
         String tableAtts = selectStr.concat(this.table.stringify());
-        //TODO unhardcode
         String whereStr = "";
         if (conditions.size()!=0) {
             whereStr = conditions.get(0).stringify();

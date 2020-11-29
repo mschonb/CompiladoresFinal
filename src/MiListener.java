@@ -15,9 +15,7 @@ public class MiListener extends testBaseListener {
 
     @Override public void enterExpr(testParser.ExprContext ctx) { }
     
-    @Override public void exitExpr(testParser.ExprContext ctx) {
-
-    }
+    @Override public void exitExpr(testParser.ExprContext ctx) { }
     
     @Override public void enterQuery(testParser.QueryContext ctx) { }
     
@@ -34,12 +32,7 @@ public class MiListener extends testBaseListener {
     }
     //query { tabla {  } } == SELECT * FROM TABLA
     
-    @Override public void enterQueryblock(testParser.QueryblockContext ctx) {
-        tables.add(new Table(ctx.table().getText(), new ArrayList<VarName>()));
-        //keeping track of which table index we're in
-        tableIndex++;
-
-    }
+    @Override public void enterQueryblock(testParser.QueryblockContext ctx) { }
     
     @Override public void exitQueryblock(testParser.QueryblockContext ctx) {
         Query query  = new Query(tables.get(tableIndex), conditions);
@@ -48,17 +41,13 @@ public class MiListener extends testBaseListener {
     
     @Override public void enterConditions(testParser.ConditionsContext ctx) { }
 
-    @Override public void exitConditions(testParser.ConditionsContext ctx) {
-    }
+    @Override public void exitConditions(testParser.ConditionsContext ctx) { }
     
     @Override public void enterParams(testParser.ParamsContext ctx) { }
     
     @Override public void exitParams(testParser.ParamsContext ctx) { }
     
-    @Override public void enterParam(testParser.ParamContext ctx) {
-        VarName id = new VarName(ctx.field().getText());
-        tables.get(tableIndex).addField(id);
-    }
+    @Override public void enterParam(testParser.ParamContext ctx) { }
     
     @Override public void exitParam(testParser.ParamContext ctx) { }
     
@@ -88,7 +77,16 @@ public class MiListener extends testBaseListener {
     
     @Override public void enterTable(testParser.TableContext ctx) { }
     
-    @Override public void exitTable(testParser.TableContext ctx) { }
+    @Override public void exitTable(testParser.TableContext ctx) {
+        //keeping track of which table index we're in
+        tableIndex++;
+        VarName tableName = new VarName(ctx.ID().getText());
+        String tableAlias = null;
+        if (ctx.alias().getText() != null) {
+            tableAlias = ctx.alias().getText();
+        }
+        tables.add(new Table(tableName, new HashMap<Field, Integer>(), tableAlias));
+    }
     
     @Override public void enterAlias(testParser.AliasContext ctx) { }
     
@@ -97,7 +95,14 @@ public class MiListener extends testBaseListener {
     @Override public void enterField(testParser.FieldContext ctx) {
     }
     
-    @Override public void exitField(testParser.FieldContext ctx) { }
+    @Override public void exitField(testParser.FieldContext ctx) {
+        String alias = null;
+
+        if (!ctx.alias().isEmpty()) {
+            alias = ctx.alias().getText();
+        }
+        tables.get(tableIndex).addField(new Field(ctx.ID().getText(), alias), tableIndex);
+    }
     
     @Override public void enterValue(testParser.ValueContext ctx) { }
     

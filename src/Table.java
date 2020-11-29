@@ -1,35 +1,40 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Table {
-    String tableName;
-    List<VarName> fields;
+    VarName tableName;
+    String tableAlias;
+    HashMap<Field, Integer> fields;
 
-    public Table(String tableName, List<VarName> fields) {
+    //table name, and HashMap corresponding to the name of field and no. of corresponding table
+    public Table(VarName tableName, HashMap<Field, Integer> fields, String tableAlias) {
         this.tableName = tableName;
         this.fields = fields;
+        if (tableAlias != null) this.tableAlias = tableAlias;
+        else this.tableAlias = "";
 
     }
 
-    public String getTableName() {return this.tableName; }
-
-    public void addField(VarName field) {
-        this.fields.add(field);
+    public void addField(Field field, int tableIndex) {
+        this.fields.put(field, tableIndex);
     }
 
     public String stringify() {
         String att = "";
+        int count = 0; //keeping last comma out
         if (fields.size()>0){
-            for (int i=0; i<fields.size(); i++) {
-                if (i<fields.size()-1)
-                    att = att.concat(fields.get(i).getValue()) + ",";
-                else
-                    att = att.concat(fields.get(i).getValue());
+            for (Field key : fields.keySet()) {
+                if (count < fields.size() - 1) {
+                    att = att.concat(key.getValue()) + ",";
+                } else {
+                    att = att.concat(key.getValue());
+                }
+                count++;
             }
 
-        }else {
+        }else
             att = "*";
-        }
-        return att + " FROM " + this.tableName;
+        if (this.tableAlias != null) return att + " FROM " + this.tableName.getValue() + " AS " + this.tableAlias;
+        return att + " FROM " + this.tableName.getValue();
     }
 }
