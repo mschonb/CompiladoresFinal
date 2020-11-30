@@ -37,10 +37,6 @@ public class Query {
         List<String> innerjoinT = new ArrayList<>();
         int tableCount = 0;
         int fieldCount;
-        if (conditions.size() > 1) {
-            System.out.println("Error, only one condition allowed on INNER JOIN.");
-            System.exit(-1);
-        }
         for (Table table:tables) {
             fieldCount = 0;
             for (Field key : table.fields.keySet()) {
@@ -57,7 +53,16 @@ public class Query {
             tableCount++;
             innerjoinT.add(table.getTableName());
         }
-        innerJoinF = innerJoinF.concat(" FROM " + innerjoinT.get(0) + " INNER JOIN " + innerjoinT.get(1) + " ON " + conditions.get(0).stringify());
+        innerJoinF = innerJoinF.concat(" FROM " + innerjoinT.get(0) + " INNER JOIN " + innerjoinT.get(1) + " ON ");
+        if (conditions.size() != 0) {
+            innerJoinF = innerJoinF.concat(conditions.get(0).stringify()+ " WHERE ");
+            for (int i=1; i<conditions.size(); i++){
+                if (i < conditions.size()-1) innerJoinF = innerJoinF.concat(conditions.get(i).stringify()+" AND ");
+                else innerJoinF = innerJoinF.concat(conditions.get(i).stringify());
+            }
+        }else
+            innerJoinF = innerJoinF.concat(conditions.get(0).stringify());
+
         return "SELECT " + innerJoinF;
     }
 }

@@ -1,0 +1,79 @@
+query(hola:32){
+	tabla(id:20, ssn _lt 20){
+		id
+		ssn
+	}
+}
+
+query {
+	tabla(id:20, ssn _lt 20){}
+}
+
+query {
+	#ssssss que pei
+	tabla(ssn _lt true){
+		alias1:id
+		alias2:ssn
+	}
+}
+
+query {
+	tabla{
+		id
+		ssn
+	}
+}
+
+query(id:1000){
+  human{
+    name
+    he:height
+  }
+  android(){}
+}
+
+
+query(movie.directorid:director.id) {
+	movie(id:1){
+		id
+		title
+	}
+	director(id:3){
+		name
+	}
+
+}
+
+query(movie:director) {
+	movie{
+		id
+		title
+	}
+	director {
+		name
+	}
+
+}
+
+
+
+query (tabla1.at2:tabla.att2) {
+	alias1:tabla1 {
+		point
+		at2
+	}
+	alias2:tabla2 {
+		att1
+		att2
+	}
+}
+
+
+query {
+	al:table(h:1, l _lt 100){
+		at1
+		allll:at2
+		lssks
+
+	}
+}

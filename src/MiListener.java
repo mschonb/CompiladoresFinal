@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MiListener extends testBaseListener {
@@ -41,7 +40,6 @@ public class MiListener extends testBaseListener {
     @Override public void enterQueryblocks(testParser.QueryblocksContext ctx) { }
     
     @Override public void exitQueryblocks(testParser.QueryblocksContext ctx) { }
-    //query { tabla {  } } == SELECT * FROM TABLA
     
     @Override public void enterQueryblock(testParser.QueryblockContext ctx) { }
     
@@ -75,6 +73,10 @@ public class MiListener extends testBaseListener {
         //datatype check
         val = checkValue(val);
         LogOp op = new LogOp(ctx.logop().getText());
+        if (val instanceof VarName && tableIndex >-1) {
+            String elVal = val.getValue();
+            ((VarName) val).setValue(tables.get(tableIndex).getTableName()+"."+elVal);
+        }
         Condition condition = new Condition(val, op, fact);
         conditions.add(condition);
     }
@@ -86,7 +88,7 @@ public class MiListener extends testBaseListener {
     @Override public void exitFactor(testParser.FactorContext ctx) { }
     
     @Override public void enterTable(testParser.TableContext ctx) { }
-    
+
     @Override public void exitTable(testParser.TableContext ctx) {
         //keeping track of which table index we're in
         tableIndex++;

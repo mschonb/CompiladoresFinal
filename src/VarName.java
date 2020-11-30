@@ -11,4 +11,6 @@ public class VarName extends Value {
     public String getValue() {
         return this.val;
     }
+
+    public void setValue(String val) { this.val = val; }
 }

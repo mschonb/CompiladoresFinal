@@ -33,7 +33,6 @@ public class Main {
             out.close();
             ParseTreeWalker walker = new ParseTreeWalker();
             MiListener listener = new MiListener();
-            System.out.println("Query " );
             //out.write(String.valueOf(tree));
             walker.walk(listener, tree);
             out.close();
