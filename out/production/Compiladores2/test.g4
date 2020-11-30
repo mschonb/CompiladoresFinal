@@ -67,7 +67,7 @@ introspection: INTROSPECTION;
 
 QUERY: 'query';
 INTROSPECTION: '__schema' | '__type' | '__typeKind' | '__field' | '__inputValue' | '__enumValue' | '__directive';
-ID : [A-Za-z][_0-9A-Za-z]*;
+ID : [A-Za-z][.]*[_0-9A-Za-z]*;
 NUM: [0-9]+;
 WS: [ \n\t\r]+ -> skip;
 COMMENT: '#' ~[\r\n]* -> skip;

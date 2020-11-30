@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MiListener extends testBaseListener {
-
+    public static String queryFinal = "";
     private List<Condition> conditions = new ArrayList<>();
     private List<Table> tables = new ArrayList<>();
     private List<Query> queries = new ArrayList<>();
@@ -24,9 +24,11 @@ public class MiListener extends testBaseListener {
         if (queries.size() > 1) {
             for (Query query:queries) {
                 //TODO wtf here
+                System.out.println(query.stringify());
             }
         }else if (queries.size() == 1) {
             System.out.println(queries.get(0).stringify());
+            queryFinal = queries.get(0).stringify();
         }else {
             System.out.println("Error. Queries not found.");
             System.exit(-1);

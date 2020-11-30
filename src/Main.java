@@ -46,10 +46,9 @@ public class Main {
              Statement statement = connection.createStatement();) {
 
             // Create and execute a SELECT SQL statement.
-            String selectSql = "select movie.id, movie.title, movie.release, genre.genre, director.name from movie inner join genre on movie.genreid = genre.id inner join director on movie.directorid = director.id";
+            //String selectSql = "select movie.id, movie.title, movie.release, genre.genre, director.name from movie inner join genre on movie.genreid = genre.id inner join director on movie.directorid = director.id";
             //System.out.println(selectSql);
-            System.out.println("esto: " + MiListener.queryFinal);
-            resultSet = statement.executeQuery(selectSql);
+            resultSet = statement.executeQuery(MiListener.queryFinal);
             ResultSetMetaData rsmd;
             rsmd = resultSet.getMetaData();
 
