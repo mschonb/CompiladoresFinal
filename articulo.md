@@ -2,9 +2,6 @@
 
 ## Autores
 
-//compilen el pdf con (necesitan pandoc y pandoc-citeproc) brew en mac y apt en linux 
-> ```pandoc --filter pandoc-citeproc --bibliography=referencias.bib --variable papersize=a4paper -s articulo.md -o articulo.pdf```  
-
 Yann Le Lorier  
 Marcelo Schonbrunn  
 Fernando  
@@ -55,9 +52,11 @@ Al momento de escritura, GraphQL ofrece soporte para los siguientes lenguajes:
 - Perl
 - D
 
-Se puede obtener más información sobre el soporte de cada lenguaje con esta herramienta en el siguiente [enlace](https://graphql.org/code/#languages).  
+Se puede obtener más información sobre el soporte de cada lenguaje con esta herramienta en el siguiente enlace: [GraphQL-Languages](https://graphql.org/code/#languages).  
 Es posible analizar el estado de GraphQL al analizar la fundación GraphQL, que apoya las contribuciones del aprendizaje de nuevas tecnologías, construcción de nuevas contribuciones tecnológicas, así como para ofrecer soporte para GraphQL, todo con el apoyo de la Linux Foundation.  
-El razonamiento detrás de esta tecnología es que estamos moviéndonos hacia una arquitectura orientada a microservicios. Toda la información de (@graphql)
+El razonamiento detrás de esta tecnología es que estamos moviéndonos hacia una arquitectura orientada a microservicios, y que la diversificación de los servicios en sí son lo que están causando que sea difícil administrar los diferentes productos, frameworks y librerías que usamos para un proyecto. 
+
+Toda la información de @graphql.
 
 ## Desarrollo
 Para poder realizar un query de forma correcta es muy importante llegar a comprender cómo este programa logra traducir la entrada hecha a base de la gramática de GraphQL y traducirla a un ejecutable que toma la forma de una cadena en lenguaje SQL. Primero vino la creación del archivo g4, es decir la gramática que se obtiene a partir de la entrada dada y la descomposición de esta misma para la generación de micro bloques los cuales afectarán de forma distinta al programa. Posteriormente nos encontramos con los programas realizados en java, principalmente nuestro archivo que funciona como listener del programa, propiamente llamado 'MiListener.java', a diferencia del archivo g4, el cual deconstruye la entrada, este listener utiliza los bloques generados a partir de los diferentes elementos encontrados en el input poco a poco va concatenando un string el cual simula una relación directa entre la gramática propuesta en GraphQL y SQL. En pocas palabras, el g4 deconstruye la entrada y el listener genera un string SQL a partir de esta de construcción.
@@ -68,16 +67,19 @@ Para el g4 principalmente se tiene una expresión *expr* la cual produce un *que
 Se tiene que un *query* comienza con la palabra 'query', la cual le puede seguir un ID que es una palabra. Este ID para efectos de SQL no es útil por lo que realizar consultas con un ID para SQL es simplemente introducir ruido en la consulta de base de datos. Posteriormente, en el query pueden venir condiciones. En caso de que venga una condición antes de un *queryblock*, el cual explicaremos más adelante, es porque se desea realizar un INNER JOIN.
 Las condiciones (*condition* en la gramática) son muy importantes a la hora de realizar una consulta en la base de datos. Estas ayudan a filtrar los registros que se desean obtener. Un ejemplo de esto es el siguiente: Se tiene una base de datos con las películas de toda la historia, y queremos solamente las películas en las que Quentin Tarantino fue el director de la película. La gramática maneja la posibilidad de manejar varias condiciones. Agarrándose del caso pasado, queremos obtener las películas las cuales su género es Miedo y el año en que se filmó es mayor a 1998. Asimismo, para las condiciones se puede incluir una variable a la que se le compara con el atributo de la tabla.
 
-Para realizar una consulta se tienen esencialmente dos casos, una consulta sobre una tabla con la opción de *n* cantidad de filtros o la opción de realizar un INNER JOIN entre dos en el cual se entrega el producto cartesiano donde los atributos correspondientes a cada tabla tengan el mismo valor. 
+Para realizar una consulta se tienen esencialmente dos casos, una consulta sobre una tabla con la opción de *n* cantidad de filtros o la opción de realizar un INNER JOIN entre dos en el cual se entrega el producto cartesiano donde los atributos correspondientes a cada tabla tengan el mismo valor.
+
 - Consulta básica sobre una tabla:
-En este caso, el usuario solamente desea ver registros de una sola tabla con la opción de filtros y proyectando los atributos que desea. Primero se debe de escribir la palabra 'query' seguido de el *queryblock*. Después el nombre de la tabla (con la opción de que tenga un aligas) y con la opción de que agregue filtros dentro de paréntesis. Por último las proyecciones (con la opción de que tengan aliases) encapsuladas en '{}'.
+  En este caso, el usuario solamente desea ver registros de una sola tabla con la opción de filtros y proyectando los atributos que desea. Primero se debe de escribir la palabra 'query' seguido de el *queryblock*. Después el nombre de la tabla (con la opción de que tenga un aligas) y con la opción de que agregue filtros dentro de paréntesis. Por último las proyecciones (con la opción de que tengan aliases) encapsuladas en '{}'.
 
 - INNER JOIN entre dos tablas: 
 El INNER JOIN, en SQL, sirve para hacer una consulta en donde un atributo de una tabla tenga el mismo valor que el de un atributo de otra tabla. El resultado es el producto cartesiano de las tablas. Para lograr esto, primero se debe de escribir la palabra 'query', seguido de los nombres de los atributos de las tablas los cuales se van a comparar, es decir, donde el valor de ambos atributos de las tablas sea el mismo. Posterior a eso se debe de incluir entre '{}' los *queryblocks* de las dos tablas los cuales pueden llevar condiciones al. La forma de escribir el *queryblock* es el nombre de la tabla (con la opción de que tenga un aligas) y con la opción de que agregue filtros dentro de paréntesis y sus proyecciones dentro de '{}'. Al final se pone la segunda tabla de la misma forma. Es pertinente mencionar que solamente se puede realizar un INNER JOIN por consulta.
 
 Los filtros se pueden ubicar en el g4 como los *logop*. Para los filtros se pueden hacer las siguientes operaciones lógicas. Para los ejemplos de cada operador lógico se tiene una tabla llamada 'movies' que tiene id, nombre, protagonista y anio_filmada
+
 - ':': Si una variable es igual a un valor
   - SELECT FROM movies WHERE nombre='Joker'
+
 - '_eq': Si una variable es igual a un valor
   - SELECT FROM movies WHERE nombre='Joker'
 - '_gt': Si una variable es mayor a un valor
@@ -121,7 +123,9 @@ query{
 }
 
 Salida:
-SELECT persona.edad, persona.id, persona.nombre FROM persona
+SELECT persona.edad, persona.id, 
+persona.nombre 
+FROM persona
 ```
 
 Consulta con filtros de una tabla
@@ -136,7 +140,11 @@ query{
 }
 
 Salida:
-SELECT persona.nombre, persona.id, persona.edad FROM persona WHERE persona.id = 20 AND persona.nombre = "Jorge"
+SELECT persona.nombre, persona.id, 
+persona.edad 
+FROM persona 
+WHERE persona.id = 20 
+AND persona.nombre = "Jorge"
 ```
 
 Consulta de INNER JOIN
@@ -153,7 +161,9 @@ query(movie.directorid:director.id) {
 }
 
 Salida:
-SELECT movie.id, movie.title, director.name FROM movie INNER JOIN director ON movie.directorid = director.id
+SELECT movie.id, movie.title, director.name 
+FROM movie INNER JOIN director 
+ON movie.directorid = director.id
 ```
 
 Consulta de INNER JOIN con filtro de una tabla
@@ -170,21 +180,27 @@ query(movie.directorid:director.id) {
 }
 
 Salida:
-SELECT movie.title, movie.id, director.name FROM movie INNER JOIN director ON movie.directorid = director.id WHERE movie.id = 11
+SELECT movie.title, movie.id, 
+director.name 
+FROM movie INNER JOIN director 
+ON movie.directorid = director.id 
+WHERE movie.id = 11
 ```
 
 Consulta de una tabla con filtro y aliases en el nombre de la tabla un atributos
 ```
 Entrada:
 query{
-	aliasTabla:movie(title:"Joker"){
-		id
-		nombre_pelicula:title
+	movie(title:"Joker"){
+		aliasid:id
+		title
 	}
 }
 
 Salida:
-SELECT movie.title AS nombre_pelicula, movie.id FROM movie AS aliasTabla WHERE movie.title = "Joker"
+SELECT movie.title, movie.id AS aliasid 
+FROM movie
+WHERE movie.title = "Joker"
 ```
 
 ## Conclusiones y trabajos futuros
