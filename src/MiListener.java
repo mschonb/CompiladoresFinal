@@ -21,16 +21,14 @@ public class MiListener extends testBaseListener {
     @Override public void enterQuery(testParser.QueryContext ctx) { }
     
     @Override public void exitQuery(testParser.QueryContext ctx) {
-        if (queries.size() > 1) {
-            for (Query query:queries) {
-                //TODO wtf here
-                System.out.println(query.stringify());
-            }
+        if (queries.size() == 2) {
+            System.out.println("Sisenor "+queries.get(0).stringifyIJ(tables, conditions));
+            queryFinal = queries.get(0).stringifyIJ(tables, conditions);
         }else if (queries.size() == 1) {
             System.out.println(queries.get(0).stringify());
             queryFinal = queries.get(0).stringify();
         }else {
-            System.out.println("Error. Queries not found.");
+            System.out.println("Error. Not implemented yet.");
             System.exit(-1);
         }
     }
