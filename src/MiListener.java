@@ -10,7 +10,7 @@ public class MiListener extends testBaseListener {
     public static String queryFinal = "";
     private List<Condition> conditions = new ArrayList<>();
     private List<Table> tables = new ArrayList<>();
-    private List<Query> queries = new ArrayList<>();
+    private List<Query> queryBlocks = new ArrayList<>();
     static int tableIndex = -1;
 
     @Override public void enterExpr(testParser.ExprContext ctx) { }
@@ -20,13 +20,13 @@ public class MiListener extends testBaseListener {
     @Override public void enterQuery(testParser.QueryContext ctx) { }
     
     @Override public void exitQuery(testParser.QueryContext ctx) {
-        if (queries.size() == 2) {
+        if (queryBlocks.size() == 2) {
             //imprimiendo el query final
-            System.out.println(queries.get(0).stringifyIJ(tables, conditions));
-            queryFinal = queries.get(0).stringifyIJ(tables, conditions);
-        }else if (queries.size() == 1) {
-            System.out.println(queries.get(0).stringify());
-            queryFinal = queries.get(0).stringify();
+            System.out.println(queryBlocks.get(0).stringifyIJ(tables, conditions));
+            queryFinal = queryBlocks.get(0).stringifyIJ(tables, conditions);
+        }else if (queryBlocks.size() == 1) {
+            System.out.println(queryBlocks.get(0).stringify());
+            queryFinal = queryBlocks.get(0).stringify();
         }else {
             System.out.println("Error. Not implemented yet.");
             System.exit(-1);
@@ -45,7 +45,7 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitQueryblock(testParser.QueryblockContext ctx) {
         Query query  = new Query(tables.get(tableIndex), conditions);
-        queries.add(query);
+        queryBlocks.add(query);
     }
     
     @Override public void enterConditions(testParser.ConditionsContext ctx) { }
