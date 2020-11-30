@@ -13,11 +13,4 @@ public class Value {
         return this.parsedString;
     }
 
-    //public Value(String name) {
-    //    this.name = name;
-    //}
-
-    //public String getValue() {
-    //    return this.name;
-    //}
 }

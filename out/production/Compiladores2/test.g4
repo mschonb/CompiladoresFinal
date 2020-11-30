@@ -47,9 +47,9 @@ table: (alias ':')? ID;
 
 alias: ID;
 
-field: (alias ':')? ID;
+field: (alias ':')? ID ('.'ID)?;
 
-value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID;
+value: variable | FLOAT | NUM | STRING | BOOLEAN | NULL | ID('.'ID)?;
 
 logop: ':'
        |'_eq'

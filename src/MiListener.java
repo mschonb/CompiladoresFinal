@@ -22,7 +22,8 @@ public class MiListener extends testBaseListener {
     
     @Override public void exitQuery(testParser.QueryContext ctx) {
         if (queries.size() == 2) {
-            System.out.println("Sisenor "+queries.get(0).stringifyIJ(tables, conditions));
+            //imprimiendo el query final
+            System.out.println(queries.get(0).stringifyIJ(tables, conditions));
             queryFinal = queries.get(0).stringifyIJ(tables, conditions);
         }else if (queries.size() == 1) {
             System.out.println(queries.get(0).stringify());
@@ -111,7 +112,13 @@ public class MiListener extends testBaseListener {
         if (ctx.alias() != null) {
             alias = alias + ctx.alias().getText();
         }
-        tables.get(tableIndex).addField(new Field(ctx.ID().getText(), alias, tables.get(tableIndex).getTableName()), tableIndex);
+
+        if (ctx.ID().size() == 1) {
+            tables.get(tableIndex).addField(new Field(ctx.ID(0).getText(), alias, tables.get(tableIndex).getTableName()), tableIndex);
+        }else {
+            System.out.println("asies raza"+ctx.ID(0).getText() +".");
+            tables.get(tableIndex).addField(new Field(ctx.ID(0).getText() +".", alias, tables.get(tableIndex).getTableName()), tableIndex);
+        }
 
     }
     
