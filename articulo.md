@@ -142,47 +142,49 @@ SELECT persona.nombre, persona.id, persona.edad FROM persona WHERE persona.id = 
 Consulta de INNER JOIN
 ```
 Entrada:
-query(pelicula.directorid:director.id) {
-	pelicula{
+query(movie.directorid:director.id) {
+	movie{
 		id
-		titulo
+		title
 	}
 	director{
 		name
 	}
 }
+
 Salida:
-SELECT pelicula.id, pelicula.titulo, director.name FROM pelicula INNER JOIN director ON pelicula.directorid = director.id
+SELECT movie.id, movie.title, director.name FROM movie INNER JOIN director ON movie.directorid = director.id
 ```
 
 Consulta de INNER JOIN con filtro de una tabla
 ```
 Entrada:
-query(pelicula.directorid:director.id) {
-	pelicula(id:11){
+query(movie.directorid:director.id) {
+	movie(id:11){
 		id
-		titulo
+		title
 	}
 	director{
 		name
 	}
 }
+
 Salida:
-SELECT pelicula.titulo, pelicula.id, director.name FROM pelicula INNER JOIN director ON pelicula.directorid = director.id WHERE pelicula.id = 11
+SELECT movie.title, movie.id, director.name FROM movie INNER JOIN director ON movie.directorid = director.id WHERE movie.id = 11
 ```
 
 Consulta de una tabla con filtro y aliases en el nombre de la tabla un atributos
 ```
 Entrada:
 query{
-	aliasTabla:pelicula(titulo:'Joker'){
+	aliasTabla:movie(title:"Joker"){
 		id
-		nombre_pelicula:titulo
+		nombre_pelicula:title
 	}
 }
 
 Salida:
-SELECT pelicula.titulo AS nombre_pelicula, pelicula.id FROM pelicula AS aliasTabla WHERE pelicula.titulo = "Joker"
+SELECT movie.title AS nombre_pelicula, movie.id FROM movie AS aliasTabla WHERE movie.title = "Joker"
 ```
 
 ## Conclusiones y trabajos futuros
