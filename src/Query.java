@@ -54,7 +54,7 @@ public class Query {
             innerjoinT.add(table.getTableName());
         }
         innerJoinF = innerJoinF.concat(" FROM " + innerjoinT.get(0) + " INNER JOIN " + innerjoinT.get(1) + " ON ");
-        if (conditions.size() != 0) {
+        if (conditions.size() != 1) {
             innerJoinF = innerJoinF.concat(conditions.get(0).stringify()+ " WHERE ");
             for (int i=1; i<conditions.size(); i++){
                 if (i < conditions.size()-1) innerJoinF = innerJoinF.concat(conditions.get(i).stringify()+" AND ");
