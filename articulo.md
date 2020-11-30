@@ -109,7 +109,81 @@ Finalmente tenemos otro método el cual es mucho más simple y del cual su uso y
 Es importante notar que también se generaron clases para cada tipo de objeto pero ir por estas una por una no necesariamente vale la pena ya que la mayoría de estas son simplemente para que el sistema o programa logre diferenciar entre lo que se recibe y de esta forma al generar el string del query cada dato se encontrara en la posición correcta y la base de datos podrá comprender la consulta y brindar una respuesta apropiada.
 
 ## Resultados Obtenidos
+Consulta básica
+```
+Entrada:
+query{
+	persona{
+		id
+		nombre
+    edad
+	}
+}
 
+Salida:
+SELECT persona.edad, persona.id, persona.nombre FROM persona
+```
+
+Consulta con filtros de una tabla
+```
+Entrada:
+query{
+	persona(id:20, nombre:'Jorge'){
+		id
+		nombre
+    edad
+	}
+}
+
+Salida:
+SELECT persona.nombre, persona.id, persona.edad FROM persona WHERE persona.id = 20 AND persona.nombre = "Jorge"
+```
+
+Consulta de INNER JOIN
+```
+Entrada:
+query(pelicula.directorid:director.id) {
+	pelicula{
+		id
+		titulo
+	}
+	director{
+		name
+	}
+}
+Salida:
+SELECT pelicula.id, pelicula.titulo, director.name FROM pelicula INNER JOIN director ON pelicula.directorid = director.id
+```
+
+Consulta de INNER JOIN con filtro de una tabla
+```
+Entrada:
+query(pelicula.directorid:director.id) {
+	pelicula(id:11){
+		id
+		titulo
+	}
+	director{
+		name
+	}
+}
+Salida:
+SELECT pelicula.titulo, pelicula.id, director.name FROM pelicula INNER JOIN director ON pelicula.directorid = director.id WHERE pelicula.id = 11
+```
+
+Consulta de una tabla con filtro y aliases en el nombre de la tabla un atributos
+```
+Entrada:
+query{
+	aliasTabla:pelicula(titulo:'Joker'){
+		id
+		nombre_pelicula:titulo
+	}
+}
+
+Salida:
+SELECT pelicula.titulo AS nombre_pelicula, pelicula.id FROM pelicula AS aliasTabla WHERE pelicula.titulo = "Joker"
+```
 
 ## Conclusiones y trabajos futuros
 ### Conclusion
@@ -127,9 +201,3 @@ Posteriormente podemos implementar mas tipos de uniones como lo podría ser el �
 Finalmente, se nos ocurrió aplicar el uso de ordenes como lo seria la función ya existente en SQL ‘ORDER BY’ con esto podremos ordenar los datos y mostrarlos al usuario para su mejor organización y comprensión. Todas estas funciones aportaran con su parte al programa y al preparar la gramática para que pueda manejar y controlar todos estos tipos de parámetros podemos mejorar el programa y de esta forma aumentar su utilidad.
 
 ## Bibliografía
-
-#### WHERE
-La palabra 'WHERE' también es uno de los elementos fundamentales que se requieren utilizar a la hora de realizar consultas, este funciona simplemente como un filtro a partir de la selección que se desea obtener, un ejemplo claro de esto es requerir una tupla en la tabla la cual esta asignada a algún identificador especifico o únicamente llamar a las entradas que cumplen con cierto parámetro, ya sea gramático, lógico, matemático, etc.
-
-#### AS
-El 'AS' en SQL es únicamente una operación que facilita la comprensión y organización de las tablas que se desea obtener, esta operación únicamente genera un nombre alias para una columna o tabla en específico, esto sirve cuando dentro de múltiples tablas, las cuales uniremos con un 'INNER JOIN' contienen parámetros llamados de forma parecida, por ejemplo si 2 tablas contienen un una columna llamada 'nombre' o 'id' para poder identificarlos a partir de un nombre personal introducido por el usuario, también funciona para darle un nombre a una columna que normalmente no lo tendría, como lo seria el resultado de una columna que da a partir de una concatenación de otras columnas u operaciones matemáticas entre tuplas.
